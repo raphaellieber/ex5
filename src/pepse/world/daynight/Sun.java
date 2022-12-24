@@ -2,13 +2,11 @@ package pepse.world.daynight;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
-import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.components.Transition;
 import danogl.gui.rendering.OvalRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-
 import java.awt.*;
 
 public class Sun {
@@ -35,7 +33,6 @@ public class Sun {
          * part of the window.
          * This is different than as mentioned in the exercise instructions, where the angle in question is in relation
          * to VECTOR_UP (which is [0,1]).
-         *
          * The Consumer (which is the 2nd parameter of the constructor) receives a lambda callback.
          * The latter takes an angle of type float, and sets the sun center by means of a private
          * method "calcSunPosition".
@@ -58,9 +55,6 @@ public class Sun {
      * the coordinates need to be adapted as following:
      *      absolute (x,y) coordinates = window center coordinates (x0,y0) +/- relative sun coordinates (x,y).
      */
-
-
-
     private static Vector2 calcSunPosition(Vector2 windowDimensions, float angleInSky) {
         Vector2 origin = new Vector2(windowDimensions.x() * 0.5f, windowDimensions.y() * 0.8f);
         float sunPathLongRadius = windowDimensions.x() * LONG_RADIUS_WINDOW_RATIO;

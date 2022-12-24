@@ -17,8 +17,8 @@ public class Leaf extends GameObject {
     private static final int MAX_MOVE_WAIT_TIME = 10;
     private static final int MIN_MOVE_WAIT_TIME = 2;
 
-    private static final float MAX_ANGEL = 10;
-    private static final float ANGEL_TIME = 2F;
+    private static final float MAX_ANGLE = 10;
+    private static final float ANGLE_TIME = 2F;
 
     private static final float DIM_VALUE_1 = 1.1F;
     private static final float DIM_VALUE_2 = 0.9F;
@@ -32,12 +32,15 @@ public class Leaf extends GameObject {
 
     private static final float MAX_HORIZONTAL_SPEED = 45;
     private static final float MIN_HORIZONTAL_SPEED = -45;
+    private static final float MAX_VERTICAL_SPEED = 30;
+    private static final float MIN_VERTICAL_SPEED = -5;
 
 
     private final Vector2 dimensions;
     private final Vector2 topLeftCorner;
     private final Random rand;
     private Transition<Float> horizontalTransition;
+    private Transition<Float> verticalTransition;
     private Transition<Float> angelTransition;
     private Transition<Vector2> dimensionTransition;
 
@@ -85,7 +88,7 @@ public class Leaf extends GameObject {
     private void movementStrategy() {
         // Angel Transition:
         this.angelTransition = new Transition<>(this, this.renderer()::setRenderableAngle,
-                -MAX_ANGEL, MAX_ANGEL, Transition.LINEAR_INTERPOLATOR_FLOAT, ANGEL_TIME,
+                -MAX_ANGLE, MAX_ANGLE, Transition.LINEAR_INTERPOLATOR_FLOAT, ANGLE_TIME,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
 
         // Dimension Transition:
@@ -100,11 +103,15 @@ public class Leaf extends GameObject {
     private void fallingStrategy() {
         // setting falling speed and fadeout time which will invoke the leafDeath function after times-up
         this.renderer().fadeOut(FADEOUT_TIME, this::leafDeath);
-        this.transform().setVelocityY(FALLING_SPEED);
+//        this.transform().setVelocityY(FALLING_SPEED);
 
         //  Horizontal Transition:
         this.horizontalTransition = new Transition<>(this, this.transform()::setVelocityX,
                 MAX_HORIZONTAL_SPEED, MIN_HORIZONTAL_SPEED, Transition.CUBIC_INTERPOLATOR_FLOAT, 3,
+                Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
+        // Vertical Transition
+        this.verticalTransition = new Transition<>(this, this.transform()::setVelocityY,
+                MAX_VERTICAL_SPEED, MIN_VERTICAL_SPEED, Transition.LINEAR_INTERPOLATOR_FLOAT, 3,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 
@@ -130,7 +137,9 @@ public class Leaf extends GameObject {
         super.onCollisionEnter(other, collision);
 
         this.transform().setVelocityX(0);  // Clearing horizontal movement
+        this.transform().setVelocityY(0);   // Clearing vertical movement
         this.removeComponent(this.horizontalTransition);
+        this.removeComponent(this.verticalTransition);
         this.removeComponent(this.dimensionTransition);
         this.removeComponent(this.angelTransition);
     }
