@@ -60,7 +60,11 @@ public class Sun {
      * the coordinates need to be adapted as following:
      *      absolute (x,y) coordinates = window center coordinates (x0,y0) +/- relative sun coordinates (x,y).
      */
+
+
+
     private static Vector2 calcSunPosition(Vector2 windowDimensions, float angleInSky) {
+
         Vector2 origin = new Vector2(windowDimensions.mult(0.5f));
         float positionX = (float) (SUN_MIN_DISTANCE * Math.cos(angleInSky));
         float positionY = (float) ((SUN_MIN_DISTANCE - 150) * Math.sin(angleInSky));
