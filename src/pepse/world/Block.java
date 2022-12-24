@@ -6,6 +6,7 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
 public class Block extends GameObject {
+
     public static final int SIZE = 30;
 
     /**
