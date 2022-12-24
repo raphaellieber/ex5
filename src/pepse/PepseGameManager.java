@@ -29,6 +29,7 @@ public class PepseGameManager extends GameManager {
     private static final int TERRAIN_LAYER = -150;
     private static final int TREE_LAYER = -149;
     private static final int LEAF_LAYER = -148;
+    private static final int CYCLE_LENGTH = 40;
 
 
 
