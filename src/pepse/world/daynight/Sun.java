@@ -12,18 +12,16 @@ import danogl.util.Vector2;
 import java.awt.*;
 
 public class Sun {
-    GameObjectCollection gameObjects;
-    Layer layer;
-    Vector2 windowDimensions;
+    private static final float LONG_RADIUS_WINDOW_RATIO = 0.6f;
+    private static final float SHORT_RADIUS_WINDOW_RATIO = 0.7f;
     static Vector2 SUN_DIMENSIONS = new Vector2(100, 100);
-    float cycleLength;
     private static final String SUN_TAG = "sun";
-    private static final float SUN_MIN_DISTANCE = 300;
     private static final float SUN_INIT_ANGLE = (float) (Math.PI);
     private static final float SUN_FINAL_ANGLE = (float) (- Math.PI);
 
     public static GameObject create(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions,
             float cycleLength) {
+
         Renderable sunImage = new OvalRenderable(Color.YELLOW);
         GameObject sun = new GameObject(Vector2.ZERO, SUN_DIMENSIONS, sunImage);
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
@@ -64,10 +62,11 @@ public class Sun {
 
 
     private static Vector2 calcSunPosition(Vector2 windowDimensions, float angleInSky) {
-
-        Vector2 origin = new Vector2(windowDimensions.mult(0.5f));
-        float positionX = (float) (SUN_MIN_DISTANCE * Math.cos(angleInSky));
-        float positionY = (float) ((SUN_MIN_DISTANCE - 150) * Math.sin(angleInSky));
+        Vector2 origin = new Vector2(windowDimensions.x() * 0.5f, windowDimensions.y() * 0.8f);
+        float sunPathLongRadius = windowDimensions.x() * LONG_RADIUS_WINDOW_RATIO;
+        float sunPathShortRadius = windowDimensions.y() * SHORT_RADIUS_WINDOW_RATIO;
+        float positionX = (float) (sunPathLongRadius * Math.cos(angleInSky));
+        float positionY = (float) (sunPathShortRadius * Math.sin(angleInSky));
         Vector2 sunPosition = new Vector2(origin.x() + positionX, origin.y() - positionY);
         return sunPosition;
     }
