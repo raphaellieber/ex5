@@ -20,14 +20,7 @@ public class Sun {
     private static final String SUN_TAG = "sun";
     private static final float SUN_MIN_DISTANCE = 300;
     private static final float SUN_INIT_ANGLE = (float) (Math.PI);
-    private static final float SUN_FINAL_ANGLE = (float) (0);
-
-    public Sun(GameObjectCollection gameObjects, Layer layer, Vector2 windowDimensions, float cycleLength) {
-        this.gameObjects = gameObjects;
-        this.layer = layer;
-        this.windowDimensions = windowDimensions;
-        this.cycleLength = cycleLength;
-    }
+    private static final float SUN_FINAL_ANGLE = (float) (- Math.PI);
 
     public static GameObject create(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions,
             float cycleLength) {
@@ -52,7 +45,7 @@ public class Sun {
         Transition<Float> sunPosition = new Transition(
                 sun, (angle) -> sun.setCenter(calcSunPosition(windowDimensions, (Float) angle)),
                 SUN_INIT_ANGLE, SUN_FINAL_ANGLE, Transition.LINEAR_INTERPOLATOR_FLOAT,
-                cycleLength, Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
+                cycleLength, Transition.TransitionType.TRANSITION_LOOP, null);
         gameObjects.addGameObject(sun, layer);
         return sun;
     }
@@ -70,7 +63,7 @@ public class Sun {
     private static Vector2 calcSunPosition(Vector2 windowDimensions, float angleInSky) {
         Vector2 origin = new Vector2(windowDimensions.mult(0.5f));
         float positionX = (float) (SUN_MIN_DISTANCE * Math.cos(angleInSky));
-        float positionY = (float) (SUN_MIN_DISTANCE * Math.sin(angleInSky));
+        float positionY = (float) ((SUN_MIN_DISTANCE - 150) * Math.sin(angleInSky));
         Vector2 sunPosition = new Vector2(origin.x() + positionX, origin.y() - positionY);
         return sunPosition;
     }

@@ -20,6 +20,7 @@ public class PepseGameManager extends GameManager {
     private static final int WINDOW_HEIGHT = 700;
     private final Vector2 windowDimensions;
     private final int CYCLE_LENGTH = 5;
+    private final Color HALO_COLOR = new Color(255, 255, 0, 20);
 
     public PepseGameManager(String windowTitle, Vector2 windowDimensions) {
         super(windowTitle, windowDimensions);
@@ -34,7 +35,7 @@ public class PepseGameManager extends GameManager {
         GameObject sun = Sun.create(this.gameObjects(), Layer.BACKGROUND + 1,
                 windowController.getWindowDimensions(), CYCLE_LENGTH);
         GameObject sunHalo = SunHalo.create(this.gameObjects(), Layer.BACKGROUND + 2,
-                sun, new Color(255, 255, 0, 20));
+                sun, HALO_COLOR);
         /**
          * A lambda callback which sets the sunHalo center at the same place of the sun center
          * in each new frame (after deltaTime).
