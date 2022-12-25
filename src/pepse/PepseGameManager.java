@@ -10,6 +10,7 @@ import danogl.gui.WindowController;
 import danogl.util.Vector2;
 import pepse.world.Sky;
 import pepse.world.Terrain;
+import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
 import pepse.world.daynight.SunHalo;
 import pepse.world.trees.Tree;
@@ -30,7 +31,7 @@ public class PepseGameManager extends GameManager {
     private static final int TREE_LAYER = -149;
     private static final int LEAF_LAYER = -148;
     private static final int CYCLE_LENGTH = 40;
-
+    private static final float DAY_CYCLE_LENGTH = 30;
 
 
     private final Vector2 windowDimensions;
@@ -49,6 +50,10 @@ public class PepseGameManager extends GameManager {
         // creating the sky
         GameObject sky = Sky.create(this.gameObjects(), this.windowDimensions, SKY_LAYER);
 
+        // creating the night
+        GameObject night = Night.create(gameObjects(), Layer.FOREGROUND, windowDimensions,
+                DAY_CYCLE_LENGTH / 2);
+
         // creating terrain
         Random random = new Random();
         int seed = random.nextInt();
@@ -62,7 +67,7 @@ public class PepseGameManager extends GameManager {
 
         // creating sun:
         GameObject sun = Sun.create(this.gameObjects(), Layer.BACKGROUND + 1,
-                windowController.getWindowDimensions(), CYCLE_LENGTH);
+                windowController.getWindowDimensions(), DAY_CYCLE_LENGTH);
         GameObject sunHalo = SunHalo.create(this.gameObjects(), Layer.BACKGROUND + 2,
                 sun, new Color(255, 255, 0, 20));
 
