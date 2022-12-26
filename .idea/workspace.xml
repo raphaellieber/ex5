@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Adapted vertical movement to leaf falling strategy.">
+    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Anton -&gt; updated ColorSupplier">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/world/daynight/Night.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/daynight/Night.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/world/daynight/Sun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/daynight/Sun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ex5.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ex5.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/trees/Leaf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/trees/Leaf.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +79,7 @@
       <updated>1671436026258</updated>
       <workItem from="1671436028798" duration="6604000" />
       <workItem from="1671646599641" duration="7100000" />
-      <workItem from="1671705515320" duration="22220000" />
+      <workItem from="1671705515320" duration="18997000" />
     </task>
     <task id="LOCAL-00001" summary="Initial version">
       <created>1671651052026</created>
@@ -96,28 +95,21 @@
       <option name="project" value="LOCAL" />
       <updated>1671799370012</updated>
     </task>
-    <task id="LOCAL-00003" summary="Added comments to Sun and SunHalo.">
-      <created>1671801497838</created>
+    <task id="LOCAL‎-00003" summary="main fail update">
+      <created>1671907922049</created>
       <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1671801497838</updated>
+      <option name="presentableId" value="LOCAL‎-00003" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1671907922049</updated>
     </task>
-    <task id="LOCAL-00004" summary="Another adaptation to sun ellipse.">
-      <created>1671912615119</created>
+    <task id="LOCAL‎-00004" summary="Added Anton's work">
+      <created>1671908892955</created>
       <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1671912615119</updated>
+      <option name="presentableId" value="LOCAL‎-00004" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1671908892955</updated>
     </task>
-    <task id="LOCAL-00005" summary="Adapted vertical movement to leaf falling strategy.">
-      <created>1671922828204</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1671922828204</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -137,9 +129,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial version" />
     <MESSAGE value="Sun in circular movement.&#10;SunHalo following sun." />
-    <MESSAGE value="Added comments to Sun and SunHalo." />
-    <MESSAGE value="Another adaptation to sun ellipse." />
-    <MESSAGE value="Adapted vertical movement to leaf falling strategy." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adapted vertical movement to leaf falling strategy." />
+    <MESSAGE value="main fail update" />
+    <MESSAGE value="Added Anton's work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Anton's work" />
   </component>
 </project>

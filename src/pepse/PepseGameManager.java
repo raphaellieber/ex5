@@ -27,11 +27,17 @@ public class PepseGameManager extends GameManager {
     private static final int WINDOW_HEIGHT = 700;
 
     private static final int SKY_LAYER = -200;
+    private static final int SUN_LAYER = -199;
+    private static final int SUN_HALO_LAYER = -198;
     private static final int TERRAIN_LAYER = -150;
     private static final int TREE_LAYER = -149;
     private static final int LEAF_LAYER = -148;
+
     private static final int CYCLE_LENGTH = 40;
     private static final float DAY_CYCLE_LENGTH = 30;
+
+    private static final Color HALO_COLOR = new Color(255, 255, 0, 20);
+
 
 
     private final Vector2 windowDimensions;
@@ -65,16 +71,12 @@ public class PepseGameManager extends GameManager {
                 TERRAIN_LAYER, seed);
         tree.createInRange(0,WINDOW_WIDTH);
 
-        // creating sun:
-        GameObject sun = Sun.create(this.gameObjects(), Layer.BACKGROUND + 1,
-                windowController.getWindowDimensions(), DAY_CYCLE_LENGTH);
-        GameObject sunHalo = SunHalo.create(this.gameObjects(), Layer.BACKGROUND + 2,
-                sun, new Color(255, 255, 0, 20));
+        // creating sun and sun halo:
+        GameObject sun = Sun.create(this.gameObjects(), SUN_LAYER, this.windowDimensions, CYCLE_LENGTH);
+        GameObject sunHalo = SunHalo.create(this.gameObjects(), SUN_HALO_LAYER, sun, HALO_COLOR);
 
-        /**
-         * A lambda callback which sets the sunHalo center at the same place of the sun center
-         * in each new frame (after deltaTime).
-         */
+        // A lambda callback which sets the sunHalo center at the same place of the sun center
+        // in each new frame (after deltaTime).
         sunHalo.addComponent((deltaTime -> sunHalo.setCenter(sun.getCenter())));
 
     }

@@ -22,10 +22,11 @@ public class Leaf extends GameObject {
 
     private static final float DIM_VALUE_1 = 1.1F;
     private static final float DIM_VALUE_2 = 0.9F;
-    private static final int DIMENTION_TIME = 5;
+    private static final int DIMENTION_CHANGE_TIME = 5;
 
     private static final int FADEOUT_TIME = 10;
     private static final int FALLING_SPEED = 30;
+    private static final int CHANGE_TIME = 3;
 
     private static final int MAX_DEATH_TIME = 10;
     private static final int MIN_DEATH_TIME = 3;
@@ -63,7 +64,6 @@ public class Leaf extends GameObject {
         this.dimensions = dimensions;
         this.topLeftCorner = topLeftCorner;
 
-
         // physics change so leaf will collide with terrain
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
 
@@ -96,23 +96,24 @@ public class Leaf extends GameObject {
         Vector2 finalState = new Vector2(startState.x() * DIM_VALUE_1, startState.y() * DIM_VALUE_2);
 
         this.dimensionTransition = new Transition<>(this, this::setDimensions, startState, finalState,
-                Transition.LINEAR_INTERPOLATOR_VECTOR, DIMENTION_TIME,
+                Transition.CUBIC_INTERPOLATOR_VECTOR, DIMENTION_CHANGE_TIME,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 
     private void fallingStrategy() {
         // setting falling speed and fadeout time which will invoke the leafDeath function after times-up
         this.renderer().fadeOut(FADEOUT_TIME, this::leafDeath);
-//        this.transform().setVelocityY(FALLING_SPEED);
+        this.transform().setVelocityY(FALLING_SPEED);
 
         //  Horizontal Transition:
         this.horizontalTransition = new Transition<>(this, this.transform()::setVelocityX,
-                MAX_HORIZONTAL_SPEED, MIN_HORIZONTAL_SPEED, Transition.CUBIC_INTERPOLATOR_FLOAT, 3,
+                MAX_HORIZONTAL_SPEED, MIN_HORIZONTAL_SPEED, Transition.CUBIC_INTERPOLATOR_FLOAT, CHANGE_TIME,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
+
         // Vertical Transition
-        this.verticalTransition = new Transition<>(this, this.transform()::setVelocityY,
-                MAX_VERTICAL_SPEED, MIN_VERTICAL_SPEED, Transition.LINEAR_INTERPOLATOR_FLOAT, 3,
-                Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
+//        this.verticalTransition = new Transition<>(this, this.transform()::setVelocityY,
+//                MAX_VERTICAL_SPEED, MIN_VERTICAL_SPEED, Transition.LINEAR_INTERPOLATOR_FLOAT, CHANGE_TIME,
+//                Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 
     private void leafDeath() {
@@ -137,9 +138,9 @@ public class Leaf extends GameObject {
         super.onCollisionEnter(other, collision);
 
         this.transform().setVelocityX(0);  // Clearing horizontal movement
-        this.transform().setVelocityY(0);   // Clearing vertical movement
+//        this.transform().setVelocityY(0);   // Clearing vertical movement
         this.removeComponent(this.horizontalTransition);
-        this.removeComponent(this.verticalTransition);
+//        this.removeComponent(this.verticalTransition);
         this.removeComponent(this.dimensionTransition);
         this.removeComponent(this.angelTransition);
     }
