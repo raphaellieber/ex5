@@ -37,7 +37,7 @@ public class Terrain {
     public float groundHeightAt(float x) {
         x /= BLOCK_SIZE; // normalizing x to an running index
         int generatedNoise = (int) (this.noiseGenerator.noise(x) * this.groundHeightAtX0);
-        int realColHeight = (int)(this.windowDimensions.y() - this.groundHeightAtX0 + generatedNoise);
+        int realColHeight = (int) (this.windowDimensions.y() - this.groundHeightAtX0 + generatedNoise);
 
         // returning normalized col height:
         return (realColHeight / BLOCK_SIZE) * BLOCK_SIZE;
@@ -66,11 +66,8 @@ public class Terrain {
                 // creating the block
                 GameObject block = new Block(locationVector, rectangleRenderable);
                 block.setTag(NAME_TAG);
-                this.gameObjects.addGameObject(block, this.groundLayer);
+                gameObjects.addGameObject(block, groundLayer);
             }
-
         }
     }
-
-
 }

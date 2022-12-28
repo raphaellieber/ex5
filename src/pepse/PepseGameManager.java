@@ -7,8 +7,10 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
+import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.world.Avatar;
+import pepse.world.Block;
 import pepse.world.Sky;
 import pepse.world.Terrain;
 import pepse.world.daynight.Night;
@@ -27,7 +29,7 @@ public class PepseGameManager extends GameManager {
     private static final int WINDOW_HEIGHT = 700;
 
     private static final int SKY_LAYER = -200;
-    private static final int TERRAIN_LAYER = -150;
+    private static final int TERRAIN_LAYER = Layer.STATIC_OBJECTS;
     private static final int TREE_LAYER = -149;
     private static final int LEAF_LAYER = -148;
     private static final int CYCLE_LENGTH = 40;
@@ -79,7 +81,9 @@ public class PepseGameManager extends GameManager {
 
         // creating Avatar
         Avatar avatar = Avatar.create(gameObjects(), Layer.DEFAULT, Vector2.ZERO, inputListener, imageReader);
+
     }
+
 
     public static void main(String[] args) {
         new PepseGameManager(PEPSE, new Vector2(WINDOW_WIDTH,WINDOW_HEIGHT)).run();

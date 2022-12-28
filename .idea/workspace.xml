@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Add Night functionality.&#10;Adapted Sun to start from midday.">
+    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Partial - Avatar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/world/Avatar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Avatar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Terrain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +88,7 @@
       <workItem from="1671436028798" duration="6604000" />
       <workItem from="1671646599641" duration="7100000" />
       <workItem from="1671705515320" duration="22220000" />
-      <workItem from="1672071781832" duration="24213000" />
+      <workItem from="1672071781832" duration="31607000" />
     </task>
     <task id="LOCAL-00001" summary="Initial version">
       <created>1671651052026</created>
@@ -131,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671997993687</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Partial - Avatar">
+      <created>1672245847635</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1672245847635</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +163,7 @@
     <MESSAGE value="Another adaptation to sun ellipse." />
     <MESSAGE value="Adapted vertical movement to leaf falling strategy." />
     <MESSAGE value="Add Night functionality.&#10;Adapted Sun to start from midday." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Night functionality.&#10;Adapted Sun to start from midday." />
+    <MESSAGE value="Partial - Avatar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Partial - Avatar" />
   </component>
 </project>

@@ -3,6 +3,7 @@ package pepse.world;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.RectangleRenderable;
@@ -36,6 +37,7 @@ public class Avatar extends GameObject{
      */
     public Avatar(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable) {
         super(topLeftCorner, dimensions, renderable);
+        physics().preventIntersectionsFromDirection(Vector2.ZERO);
     }
 
     public static Avatar create(GameObjectCollection gameObjects, int layer, Vector2 topLeftCorner,
@@ -44,23 +46,32 @@ public class Avatar extends GameObject{
         Avatar avatar = new Avatar(topLeftCorner, AVATAR_DIMENSIONS, avatarRenderable);
         avatar.gameObjects = gameObjects;
         avatar.inputListener = inputListener;
-        avatar.physics().preventIntersectionsFromDirection(Vector2.ZERO);
+
         avatar.fall();
-        gameObjects.addGameObject(avatar, layer);
+        gameObjects.addGameObject(avatar, Layer.DEFAULT);
         return avatar;
     }
 
     @Override
     public void update(float deltaTime) {
+        System.out.println(energy);
         super.update(deltaTime);
         updateEnergy();
         cancelHorizontalVelocity();
+        cancelFlying();
         if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT))
             moveRight();
         if(inputListener.isKeyPressed(KeyEvent.VK_LEFT))
             moveLeft();
-        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE))
-            jump();
+        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {
+            if (inputListener.isKeyPressed(KeyEvent.VK_SHIFT) && energy > 0)
+                fly();
+            else jump();
+        }
+    }
+
+    private void cancelFlying() {
+        flying = false;
     }
 
     private void moveRight() {
@@ -70,6 +81,15 @@ public class Avatar extends GameObject{
 
     public void moveLeft() {
         setVelocity(new Vector2(- HORIZONTAL_VELOCITY_X, getVelocity().y()));
+    }
+
+    private void fly() {
+        setVelocity(new Vector2(getVelocity().x(), JUMP_VELOCITY_Y));
+        reduceEnergy();
+    }
+
+    private void reduceEnergy() {
+        energy -= ENERGY_CHANGE;
     }
 
     private void jump() {
@@ -83,19 +103,11 @@ public class Avatar extends GameObject{
     }
 
     private void updateEnergy() {
-        if(flying && energy > MIN_ENERGY)
-            energy -= ENERGY_CHANGE;
-        else if(energy < MAX_ENERGY)
+        if(getVelocity().y() == 0 && energy < MAX_ENERGY)
             energy += ENERGY_CHANGE;
     }
 
     private void cancelHorizontalVelocity() {
         setVelocity(new Vector2(0, getVelocity().y()));
-    }
-
-    @Override
-    public void onCollisionEnter(GameObject other, Collision collision) {
-        super.onCollisionEnter(other, collision);
-        System.out.println("hi");
     }
 }
