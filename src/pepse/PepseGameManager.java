@@ -8,6 +8,7 @@ import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.util.Vector2;
+import pepse.world.Avatar;
 import pepse.world.Sky;
 import pepse.world.Terrain;
 import pepse.world.daynight.Night;
@@ -17,7 +18,6 @@ import pepse.world.trees.Tree;
 
 import java.awt.*;
 import java.util.Random;
-import java.util.function.Function;
 
 public class PepseGameManager extends GameManager {
 
@@ -48,7 +48,7 @@ public class PepseGameManager extends GameManager {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
 
         // creating the sky
-        GameObject sky = Sky.create(this.gameObjects(), this.windowDimensions, SKY_LAYER);
+        GameObject sky = Sky.create(gameObjects(), windowDimensions, SKY_LAYER);
 
         // creating the night
         GameObject night = Night.create(gameObjects(), Layer.FOREGROUND, windowDimensions,
@@ -57,18 +57,18 @@ public class PepseGameManager extends GameManager {
         // creating terrain
         Random random = new Random();
         int seed = random.nextInt();
-        Terrain terrain = new Terrain(this.gameObjects(), TERRAIN_LAYER, this.windowDimensions, seed);
+        Terrain terrain = new Terrain(gameObjects(), TERRAIN_LAYER, windowDimensions, seed);
         terrain.createInRange(0,WINDOW_WIDTH);
 
-        // creating TreeCreator:
-        Tree tree = new Tree(terrain::groundHeightAt, this.gameObjects(), TREE_LAYER, LEAF_LAYER,
+        // creating TreeCreator
+        Tree tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER,
                 TERRAIN_LAYER, seed);
         tree.createInRange(0,WINDOW_WIDTH);
 
-        // creating sun:
-        GameObject sun = Sun.create(this.gameObjects(), Layer.BACKGROUND + 1,
+        // creating sun
+        GameObject sun = Sun.create(gameObjects(), Layer.BACKGROUND + 1,
                 windowController.getWindowDimensions(), DAY_CYCLE_LENGTH);
-        GameObject sunHalo = SunHalo.create(this.gameObjects(), Layer.BACKGROUND + 2,
+        GameObject sunHalo = SunHalo.create(gameObjects(), Layer.BACKGROUND + 2,
                 sun, new Color(255, 255, 0, 20));
 
         /**
@@ -77,6 +77,8 @@ public class PepseGameManager extends GameManager {
          */
         sunHalo.addComponent((deltaTime -> sunHalo.setCenter(sun.getCenter())));
 
+        // creating Avatar
+        Avatar avatar = Avatar.create(gameObjects(), Layer.DEFAULT, Vector2.ZERO, inputListener, imageReader);
     }
 
     public static void main(String[] args) {
