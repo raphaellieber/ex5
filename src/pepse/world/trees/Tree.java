@@ -8,8 +8,8 @@ import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
 import java.util.function.Function;
 
 public class Tree {
@@ -20,38 +20,83 @@ public class Tree {
     private static final int TRUNK_BLOCK_SIZE = 30;
     private static final int LEAF_BLOCK_SIZE = 30;
 
-    private static final int TREE_CHANCE = 15;
-    private static final int MAX_TREE_HEIGHT = 10;
+    private static final int TREE_CHANCE = 30;
+    private static final int MAX_TREE_HEIGHT = 12;
     private static final int MIN_TREE_HEIGHT = 7;
 
-    private static final int DEFAULT_VALUE = -999;
+//    private static final int DEFAULT_VALUE = -999;
 
-
-
-    private final Function<Integer, Float> groundHeightAt;
+    private final Function<Integer, Float> groundHeightAtFunc;
     private final GameObjectCollection gameObjects;
     private final int treeLayer;
     private final int leafLayer;
-    private final int groundLayer;
-    private boolean treeCreated;
-    private int xOfLastTree;
+//    private final int groundLayer;
     private final Random random;
 
-    public Tree (Function<Integer, Float> groundHeightAt, GameObjectCollection gameObjects, int treeLayer,
-                 int leafLayer, int groundLayer, int seed) {
+    public final ArrayList<Integer> treeXLocations;
+    private int minXOnTerrain;
+    private int maxXOnTerrain;
 
-        this.treeCreated = false;
-        this.groundHeightAt = groundHeightAt;
+    /**
+     * Constructor
+     * @param groundHeightAt represents a function that gets a float number and returns the height of the
+     *                      ground at that number
+     * @param gameObjects the collection of all game objects currently in the game
+     * @param treeLayer represents the layer of the trees
+     * @param leafLayer represents the layer of the leafs
+     * @param seed represents a seed for the random creator
+     */
+    public Tree (Function<Integer, Float> groundHeightAt, GameObjectCollection gameObjects, int treeLayer,
+                 int leafLayer, int seed) {
+
+        this.groundHeightAtFunc = groundHeightAt;
         this.gameObjects = gameObjects;
         this.treeLayer = treeLayer;
         this.leafLayer = leafLayer;
-        this.groundLayer = groundLayer;
+//        this.groundLayer = groundLayer;
 
-        this.xOfLastTree = DEFAULT_VALUE;
+        this.minXOnTerrain = 0 ; // default value
+        this.maxXOnTerrain = 0; // default value
+
         this.random = new Random(seed);
+
+        this.treeXLocations = new ArrayList<>();
     }
 
+    /**
+     * A method that creates trees between minX and maxX
+     * @param minX represents the lower bound
+     * @param maxX represents the top bound
+     */
     public void createInRange(int minX, int maxX) {
+//            minX.......|(this.min)...................(this.max)|......maxX
+        if (minX <= this.minXOnTerrain && maxX >= this.maxXOnTerrain) {
+            createInRangeHelper(minX, this.minXOnTerrain);
+            createInRangeHelper(this.maxXOnTerrain, maxX);
+            this.minXOnTerrain = minX;
+            this.maxXOnTerrain = maxX;
+        }
+
+        //   |(this.min)......minX...................(this.max)|......maxX
+        else if (minX > this.minXOnTerrain && minX < this.maxXOnTerrain && maxX > this.maxXOnTerrain) {
+            createInRangeHelper(this.maxXOnTerrain, maxX);
+            this.maxXOnTerrain = maxX;
+        }
+
+        //   minX.......|(this.min)...................maxX......(this.max)|
+        else if (maxX < this.maxXOnTerrain && maxX > this.minXOnTerrain && minX < this.minXOnTerrain) {
+            createInRangeHelper(minX,this.minXOnTerrain);
+            this.minXOnTerrain = minX;
+        }
+    }
+
+
+    /**
+     * A helper method that creates trees between minX and maxX
+     * @param minX represents the lower bound
+     * @param maxX represents the top bound
+     */
+    private void createInRangeHelper(int minX, int maxX){
 
         // calculating the location of normalized minX and maxX:
         int LastBlockLocation = Math.ceilDivExact(maxX, TRUNK_BLOCK_SIZE) * TRUNK_BLOCK_SIZE;
@@ -61,33 +106,41 @@ public class Tree {
         // Creating trees:
         for (int i = firstBlockLocation; i < LastBlockLocation; i += TRUNK_BLOCK_SIZE) { createTree(i); }
 
-        if (this.treeCreated) {
-            gameObjects.layers().shouldLayersCollide(this.leafLayer, this.groundLayer, true);
-        }
     }
 
+    /**
+     * A helper method that creates one tree with a change: 1/TREE_CHANCE at a given x
+     * @param x represents the given x
+     */
     private void createTree(int x) {
 
         // Tossing tilted coin with 1/TREE_CHANCE chance of creating a tree:
         Random rand = new Random();
         int tiltedCoinToss = rand.nextInt(TREE_CHANCE);
 
-        if (tiltedCoinToss == 0 && this.xOfLastTree != x-TRUNK_BLOCK_SIZE) {
+//        if (tiltedCoinToss == 0 && this.xOfLastTree != x-TRUNK_BLOCK_SIZE) {
+
+        if (tiltedCoinToss == 0 && !this.treeXLocations.contains(x+30)
+                                && !this.treeXLocations.contains(x-30)
+                                && !this.treeXLocations.contains(x)) {
             // Calculating the location of left top corner of first block
-            float groundHeightAtX = (groundHeightAt.apply(x));
+            float groundHeightAtX = (groundHeightAtFunc.apply(x));
 
             // creating the tree
             int trunkHeight = createTrunk(x, groundHeightAtX);
             createTreeTop(x, trunkHeight);
 
-            this.xOfLastTree = x;  // keeping the x of last tree
-
-            if (!this.treeCreated) { this.treeCreated = true; }  // flag that at least one tree was created
-
+            this.treeXLocations.add(x); // adding x into the tree locations collection
         }
     }
 
-    private int createTrunk(int topLeftX, float topLeftY) {
+    /**
+     * A method that creates the trunk of the tree with bottom left corner given at (leftX, leftY)
+     * @param LeftX represents the X of the bottom left corner
+     * @param LeftY represents the Y of the bottom left corner
+     * @return returns the height of the tree
+     */
+    private int createTrunk(int LeftX, float LeftY) {
         int treeHeight = this.random.nextInt(MIN_TREE_HEIGHT, MAX_TREE_HEIGHT);
 
         for (int i = 0; i < treeHeight; i++) {
@@ -96,8 +149,8 @@ public class Tree {
                     RectangleRenderable(ColorSupplier.approximateColor(TRUNK_COLOR));
 
             // creating a trunk block, tagging it and adding into gameObjects:
-            topLeftY -= TRUNK_BLOCK_SIZE;
-            Vector2 leftTopCorner = new Vector2(topLeftX, topLeftY);
+            LeftY -= TRUNK_BLOCK_SIZE;
+            Vector2 leftTopCorner = new Vector2(LeftX, LeftY);
             GameObject trunkBlock = new GameObject(leftTopCorner, Vector2.ONES.mult(TRUNK_BLOCK_SIZE),
                     rectangleRenderable);
             trunkBlock.physics().preventIntersectionsFromDirection(Vector2.ZERO);
@@ -106,13 +159,19 @@ public class Tree {
             this.gameObjects.addGameObject(trunkBlock, this.treeLayer);
         }
         // returning the y top left corner of the trunk
-        return (int)topLeftY;
+        return (int)LeftY;
     }
 
+    /**
+     * A method that creates the tree top at a given X and given tree height with change of 1/2 to be with
+     * diameter size of 5 and 1/2 chance to be with diameter size of 7
+     * @param treeX represents the X where the tree at
+     * @param trunkHeight represents the height of the tree
+     */
     private void createTreeTop(int treeX, int trunkHeight) {
 
         // determining tree top diameter:
-        int treeTopDiam = 0;
+        int treeTopDiam;
 
         if (this.random.nextInt(2) == 1){ treeTopDiam = 5; }
         else {treeTopDiam = 3;}
@@ -140,5 +199,21 @@ public class Tree {
         }
     }
 
+    /**
+     * A method that returns True if there is a tree at a given x and false otherwise
+     * @param x represents the given x
+     * @return True if there is a tree at x, false otherwise
+     */
+    public boolean treeAtX(int x){
+        return this.treeXLocations.contains(x);
+    }
+
+    /**
+     * A method that checks if there are trees
+     * @return true if there is, false otherwise
+     */
+    public boolean haveTrees() {
+        return !this.treeXLocations.isEmpty();
+    }
 
 }

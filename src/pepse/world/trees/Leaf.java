@@ -68,11 +68,19 @@ public class Leaf extends GameObject {
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
 
         // starting the leaf life cycle:
-        this.leafLifeCycle();
+        this.startLeafLifeCycle();
 
     }
 
-    private void leafLifeCycle(){
+    /**
+     * A method that starts the leaf life cycle:
+     * movement of the leaf
+     * falling of the leaf
+     * death of the leaf
+     * recreation of the leaf
+     * The function initializes the movement of the leaf and sets the time for the falling of the leaf
+     */
+    private void startLeafLifeCycle(){
 
         // Creating for each leaf random lifeTime and random waitTime until the transitions will start
         float movementWaitTime = this.rand.nextInt(MIN_MOVE_WAIT_TIME, MAX_MOVE_WAIT_TIME);
@@ -85,6 +93,9 @@ public class Leaf extends GameObject {
         new ScheduledTask(this, lifeTime, false, this::fallingStrategy);
     }
 
+    /**
+     * A method that represents the movement strategy for the leaf
+     */
     private void movementStrategy() {
         // Angel Transition:
         this.angelTransition = new Transition<>(this, this.renderer()::setRenderableAngle,
@@ -100,6 +111,9 @@ public class Leaf extends GameObject {
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 
+    /**
+     * A method that represents the falling strategy for the leaf
+     */
     private void fallingStrategy() {
         // setting falling speed and fadeout time which will invoke the leafDeath function after times-up
         this.renderer().fadeOut(FADEOUT_TIME, this::leafDeath);
@@ -116,13 +130,21 @@ public class Leaf extends GameObject {
 //                Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 
+    /**
+     * A method that sets the time until the leaf will die and calls the leaf recreation method
+     * which is the last stage in the leaf live cycle
+     */
     private void leafDeath() {
         // getting a random leaf death time, on time up the leaf will rebirth
         int deathTime = this.rand.nextInt(MIN_DEATH_TIME, MAX_DEATH_TIME);
-        new ScheduledTask(this, deathTime, false, this::leafRebirth);
+        new ScheduledTask(this, deathTime, false, this::leafRecreation);
     }
 
-    private void leafRebirth() {
+    /**
+     * A method that recreates the leaf on the tree with the same characteristics
+     * the method starts the leaf life cycle again.
+     */
+    private void leafRecreation() {
         // initializing characteristics:
         this.setTopLeftCorner(this.topLeftCorner);
         this.setDimensions(this.dimensions);
@@ -130,9 +152,15 @@ public class Leaf extends GameObject {
         this.renderer().setRenderableAngle(0);
 
         // starting a new leaf life cycle:
-        this.leafLifeCycle();
+        this.startLeafLifeCycle();
     }
 
+    /**
+     * An override for the original function, the override calls the original function
+     * and clears all the transformation
+     * @param other The collision partner.
+     * @param collision Information regarding this collision.
+     */
     @Override
     public void onCollisionStay(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
