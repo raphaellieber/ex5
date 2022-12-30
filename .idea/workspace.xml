@@ -8,7 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/world/Avatar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Avatar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Terrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/daynight/Sun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/daynight/Sun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/trees/Tree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/trees/Tree.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +89,7 @@
       <workItem from="1671436028798" duration="6604000" />
       <workItem from="1671646599641" duration="7100000" />
       <workItem from="1671705515320" duration="22220000" />
-      <workItem from="1672071781832" duration="31607000" />
+      <workItem from="1672071781832" duration="38839000" />
     </task>
     <task id="LOCAL-00001" summary="Initial version">
       <created>1671651052026</created>
@@ -139,7 +140,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672245847635</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Partial - Avatar">
+      <created>1672254593732</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1672254593732</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

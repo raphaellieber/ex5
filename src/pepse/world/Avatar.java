@@ -6,6 +6,7 @@ import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
+import danogl.gui.rendering.AnimationRenderable;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
@@ -25,6 +26,9 @@ public class Avatar extends GameObject{
     private boolean flying = false;
     private UserInputListener inputListener;
     private GameObjectCollection gameObjects;
+    private Renderable standStill;
+    private Renderable leftFoot;
+    private Renderable rightFoot;
 
     /**
      * Construct a new GameObject instance.
@@ -35,30 +39,34 @@ public class Avatar extends GameObject{
      * @param renderable    The renderable representing the object. Can be null, in which case
      *                      the GameObject will not be rendered.
      */
-    public Avatar(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable) {
-        super(topLeftCorner, dimensions, renderable);
+    public Avatar(Vector2 topLeftCorner, Vector2 dimensions, ImageReader imageReader,
+                  GameObjectCollection gameObjects, UserInputListener inputListener) {
+        super(topLeftCorner, dimensions, null);
+        this.gameObjects = gameObjects;
+        this.inputListener = inputListener;
+        this.standStill = imageReader.readImage("assets/standstill.jpg", true);
+        this.leftFoot = imageReader.readImage("assets/leftfoot.jpg", true);
+        this.rightFoot = imageReader.readImage("assets/rightfoot.jpg", true);
+        this.renderer().setRenderable(standStill);
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
+
+
     }
 
     public static Avatar create(GameObjectCollection gameObjects, int layer, Vector2 topLeftCorner,
                                 UserInputListener inputListener, ImageReader imageReader) {
-        Renderable avatarRenderable = new RectangleRenderable(Color.PINK);
-        Avatar avatar = new Avatar(topLeftCorner, AVATAR_DIMENSIONS, avatarRenderable);
-        avatar.gameObjects = gameObjects;
-        avatar.inputListener = inputListener;
 
+        Avatar avatar = new Avatar(topLeftCorner, AVATAR_DIMENSIONS, imageReader, gameObjects, inputListener);
         avatar.fall();
-        gameObjects.addGameObject(avatar, Layer.DEFAULT);
+        gameObjects.addGameObject(avatar, layer);
         return avatar;
     }
 
     @Override
     public void update(float deltaTime) {
-        System.out.println(energy);
         super.update(deltaTime);
         updateEnergy();
         cancelHorizontalVelocity();
-        cancelFlying();
         if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT))
             moveRight();
         if(inputListener.isKeyPressed(KeyEvent.VK_LEFT))
@@ -70,32 +78,25 @@ public class Avatar extends GameObject{
         }
     }
 
-    private void cancelFlying() {
-        flying = false;
-    }
-
     private void moveRight() {
         setVelocity(new Vector2(HORIZONTAL_VELOCITY_X, getVelocity().y()));
-
+        renderer().setRenderable(rightFoot);
     }
 
     public void moveLeft() {
         setVelocity(new Vector2(- HORIZONTAL_VELOCITY_X, getVelocity().y()));
+        renderer().setRenderable(leftFoot);
+
     }
 
     private void fly() {
         setVelocity(new Vector2(getVelocity().x(), JUMP_VELOCITY_Y));
-        reduceEnergy();
-    }
-
-    private void reduceEnergy() {
         energy -= ENERGY_CHANGE;
     }
 
     private void jump() {
         if(getVelocity().y() == 0)
             setVelocity(new Vector2(getVelocity().x(), JUMP_VELOCITY_Y));
-            fall();
     }
 
     private void fall() {

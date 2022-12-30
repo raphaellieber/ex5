@@ -2,6 +2,7 @@ package pepse.world.trees;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
+import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
@@ -99,6 +100,8 @@ public class Tree {
             Vector2 leftTopCorner = new Vector2(topLeftX, topLeftY);
             GameObject trunkBlock = new GameObject(leftTopCorner, Vector2.ONES.mult(TRUNK_BLOCK_SIZE),
                     rectangleRenderable);
+            trunkBlock.physics().preventIntersectionsFromDirection(Vector2.ZERO);
+            trunkBlock.physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
             trunkBlock.setTag("tree_trunk");
             this.gameObjects.addGameObject(trunkBlock, this.treeLayer);
         }

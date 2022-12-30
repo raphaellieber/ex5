@@ -7,6 +7,7 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
+import danogl.gui.rendering.Camera;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.world.Avatar;
@@ -29,12 +30,16 @@ public class PepseGameManager extends GameManager {
     private static final int WINDOW_HEIGHT = 700;
 
     private static final int SKY_LAYER = -200;
-    private static final int TERRAIN_LAYER = Layer.STATIC_OBJECTS;
+    private static final int SUN_LAYER = -199;
+    private static final int SUN_HALO_LAYER = -198;
+    private static final int TERRAIN_LAYER = -150;
     private static final int TREE_LAYER = -149;
     private static final int LEAF_LAYER = -148;
-    private static final int CYCLE_LENGTH = 40;
+    private static final int AVATAR_LAYER = 0;
+    private static final int NIGHT_LAYER = 100;
+    private static final int UI_LAYER = 200;
     private static final float DAY_CYCLE_LENGTH = 30;
-
+    private static final Color SUN_HALO_COLOR = new Color(255, 255, 0, 20);
 
     private final Vector2 windowDimensions;
 
@@ -53,7 +58,7 @@ public class PepseGameManager extends GameManager {
         GameObject sky = Sky.create(gameObjects(), windowDimensions, SKY_LAYER);
 
         // creating the night
-        GameObject night = Night.create(gameObjects(), Layer.FOREGROUND, windowDimensions,
+        GameObject night = Night.create(gameObjects(), NIGHT_LAYER, windowDimensions,
                 DAY_CYCLE_LENGTH / 2);
 
         // creating terrain
@@ -68,10 +73,10 @@ public class PepseGameManager extends GameManager {
         tree.createInRange(0,WINDOW_WIDTH);
 
         // creating sun
-        GameObject sun = Sun.create(gameObjects(), Layer.BACKGROUND + 1,
+        GameObject sun = Sun.create(gameObjects(), SUN_LAYER,
                 windowController.getWindowDimensions(), DAY_CYCLE_LENGTH);
-        GameObject sunHalo = SunHalo.create(gameObjects(), Layer.BACKGROUND + 2,
-                sun, new Color(255, 255, 0, 20));
+        GameObject sunHalo = SunHalo.create(gameObjects(), SUN_HALO_LAYER,
+                sun, SUN_HALO_COLOR);
 
         /**
          * A lambda callback which sets the sunHalo center at the same place of the sun center
@@ -80,7 +85,13 @@ public class PepseGameManager extends GameManager {
         sunHalo.addComponent((deltaTime -> sunHalo.setCenter(sun.getCenter())));
 
         // creating Avatar
-        Avatar avatar = Avatar.create(gameObjects(), Layer.DEFAULT, Vector2.ZERO, inputListener, imageReader);
+        Vector2 location = new Vector2(WINDOW_WIDTH/2, terrain.groundHeightAt(WINDOW_WIDTH/2)-50);
+
+
+        Avatar avatar = Avatar.create(gameObjects(), AVATAR_LAYER, location, inputListener, imageReader);
+        setCamera(new Camera(avatar, windowDimensions.mult(0.5f).subtract(location), windowDimensions, windowDimensions));
+        gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TREE_LAYER, true);
+        gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TERRAIN_LAYER, true);
 
     }
 

@@ -12,15 +12,17 @@ import java.awt.*;
 public class Sun {
     private static final float LONG_RADIUS_WINDOW_RATIO = 0.6f;
     private static final float SHORT_RADIUS_WINDOW_RATIO = 0.7f;
-    static Vector2 SUN_DIMENSIONS = new Vector2(100, 100);
+    private static final Vector2 SUN_DIMENSIONS = new Vector2(100, 100);
     private static final String SUN_TAG = "sun";
     private static final float SUN_INIT_ANGLE = (float) (Math.PI * 5/ 2);
     private static final float SUN_FINAL_ANGLE = (float) (Math.PI / 2);
+    private static final Color SUN_COLOR = Color.YELLOW;
+
 
     public static GameObject create(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions,
             float cycleLength) {
 
-        Renderable sunImage = new OvalRenderable(Color.YELLOW);
+        Renderable sunImage = new OvalRenderable(SUN_COLOR);
         GameObject sun = new GameObject(Vector2.ZERO, SUN_DIMENSIONS, sunImage);
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         sun.setTag(SUN_TAG);
