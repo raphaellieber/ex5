@@ -16,24 +16,38 @@ public class Terrain {
     private static final String NAME_TAG = "ground";
     private static final int TERRAIN_DEPTH = 20;
     public static final int BLOCK_SIZE = 30;
-//    public static final float ROUGHNESS = 1F;
-
-
 
     private final GameObjectCollection gameObjects;
     private final int groundLayer;
     private final float groundHeightAtX0;
     private final Vector2 windowDimensions;
     private final NoiseGenerator noiseGenerator;
+    private int minXOnTerrain;
+    private int maxXOnTerrain;
 
+    /**
+     * Constructor
+     * @param gameObjects the collection of all game objects currently in the game
+     * @param groundLayer represents the number of the ground layer
+     * @param windowDimensions represents the dimensions of the window
+     * @param seed represents a seed for the random creator
+     */
     public Terrain(GameObjectCollection gameObjects, int groundLayer, Vector2 windowDimensions, int seed) {
         this.gameObjects = gameObjects;
         this.groundLayer = groundLayer;
         this.groundHeightAtX0 = (float)1/3 * windowDimensions.y();
         this.windowDimensions = windowDimensions;
         this.noiseGenerator = new NoiseGenerator(seed);
+
+        this.minXOnTerrain = (int) (windowDimensions.x()/2); // default value
+        this.maxXOnTerrain = (int) (windowDimensions.x()/2); // default value
     }
 
+    /**
+     * A method that returns the real height of the ground at curtain x
+     * @param x represents the spot on the terrain we want to know the height of
+     * @return float which represents the height of the ground at x
+     */
     public float groundHeightAt(float x) {
         x /= BLOCK_SIZE; // normalizing x to an running index
         int generatedNoise = (int) (this.noiseGenerator.noise(x) * this.groundHeightAtX0);
@@ -43,19 +57,50 @@ public class Terrain {
         return (realColHeight / BLOCK_SIZE) * BLOCK_SIZE;
     }
 
+    /**
+     * A method that creates terrain between minX and maxX
+     * @param minX represents the lower bound
+     * @param maxX represents the top bound
+     */
     public void createInRange(int minX, int maxX) {
+
+        //    minX.......|(this.min)...................(this.max)|......maxX
+        if (minX < this.minXOnTerrain && maxX > this.maxXOnTerrain) {
+            createInRangeHelper(minX, this.minXOnTerrain);
+            createInRangeHelper(this.maxXOnTerrain, maxX);
+            this.minXOnTerrain = minX;
+            this.maxXOnTerrain = maxX;
+        }
+
+        //   |(this.min)......minX...................(this.max)|......maxX
+        else if (minX > this.minXOnTerrain && minX < this.maxXOnTerrain && maxX > this.maxXOnTerrain) {
+            createInRangeHelper(this.maxXOnTerrain, maxX);
+            this.maxXOnTerrain = maxX;
+        }
+
+        //   minX.......|(this.min)...................maxX......(this.max)|
+        else if (maxX < this.maxXOnTerrain && maxX > this.minXOnTerrain && minX < this.minXOnTerrain) {
+            createInRangeHelper(minX,this.minXOnTerrain);
+            this.minXOnTerrain = minX;
+        }
+    }
+
+
+    private void createInRangeHelper ( int minX, int maxX){
 
         // calculating the location of first block and last block in a row
         int LastBlockLocation = Math.ceilDivExact(maxX, BLOCK_SIZE) * BLOCK_SIZE;
         int firstBlockLocation = (minX / BLOCK_SIZE) * BLOCK_SIZE;
-        if (minX < 0) { firstBlockLocation -= BLOCK_SIZE; }
+        if (minX < 0) {
+            firstBlockLocation -= BLOCK_SIZE;
+        }
 
         for (int x = firstBlockLocation; x <= LastBlockLocation; x += BLOCK_SIZE) {
 
             // getting the height of the col
-            int colHeight = (int)this.groundHeightAt(x);
+            int colHeight = (int) this.groundHeightAt(x);
 
-            for (int n = 0; n <= TERRAIN_DEPTH ; n++) {
+            for (int n = 0; n <= TERRAIN_DEPTH; n++) {
                 // creating renderer
                 RectangleRenderable rectangleRenderable = new
                         RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));

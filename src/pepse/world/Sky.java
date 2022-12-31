@@ -12,6 +12,13 @@ public class Sky {
     private static final String SKY = "sky";
     private static final Color BASIC_SKY_COLOR = Color.decode("#80C6E5");
 
+    /**
+     * Constructor
+     * @param gameObjects the collection of all game objects currently in the game
+     * @param windowDimensions represents the dimensions of the window
+     * @param layer represents the layer of the sky
+     * @return sky gameObject
+     */
     public static GameObject create(GameObjectCollection gameObjects,
                                     Vector2 windowDimensions, int layer) {
         GameObject sky = new GameObject(Vector2.ZERO, windowDimensions,
