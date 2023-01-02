@@ -20,7 +20,7 @@ public class Block extends GameObject {
         super(topLeftCorner, Vector2.ONES.mult(SIZE), renderable);
 
         // determining the physics of the block
-        physics().preventIntersectionsFromDirection(Vector2.ZERO);
+//        physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
     }
 }

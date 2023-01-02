@@ -1,6 +1,7 @@
 package pepse.world;
 
 import danogl.GameObject;
+import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
@@ -77,6 +78,12 @@ public class Avatar extends GameObject{
         }
     }
 
+    /**
+     * A getter for the Avatar's energy
+     * @return the energy of the Avatar
+     */
+    public float getEnergy(){ return this.energy;}
+
     private void moveRight() {
         setVelocity(new Vector2(HORIZONTAL_VELOCITY_X, getVelocity().y()));
         this.renderer().setRenderable(this.movementAnimation);
@@ -112,9 +119,10 @@ public class Avatar extends GameObject{
         setVelocity(new Vector2(0, getVelocity().y()));
     }
 
-    /**
-     * A getter for the Avatar's energy
-     * @return the energy of the Avatar
-     */
-    public float getEnergy(){ return this.energy;}
+    @Override
+    public void onCollisionEnter(GameObject other, Collision collision) {
+        super.onCollisionEnter(other, collision);
+        if(other.getClass() == Block.class)
+            this.setVelocity(new Vector2(0,this.getVelocity().y()));
+    }
 }

@@ -23,7 +23,7 @@ import java.util.Random;
 
 public class PepseGameManager extends GameManager {
 
-    private static final String PEPSE = "PEPSE";
+    private static final String PEPSE_TAG = "PEPSE";
 
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 700;
@@ -38,12 +38,11 @@ public class PepseGameManager extends GameManager {
     private static final int NIGHT_LAYER = 100;
     private static final int UI_LAYER = 200;
 
-    private static final float DAY_CYCLE_LENGTH = 120;
-    private static final Color SUN_HALO_COLOR = new Color(255, 255, 0, 20);
-
     private static final int TEXT_SIZE = 25;
     private static final int TERRAIN_FACTOR = 1000;
 
+    private static final float DAY_CYCLE_LENGTH = 120;
+    private static final Color SUN_HALO_COLOR = new Color(255, 255, 0, 20);
 
     private final Vector2 windowDimensions;
     private Avatar avatar;
@@ -58,30 +57,11 @@ public class PepseGameManager extends GameManager {
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader,
                                UserInputListener inputListener, WindowController windowController) {
-
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
+        windowController.setTargetFramerate(80);
 
-        // creating random seed
-        Random random = new Random();
-        int seed = random.nextInt();
-
-        // creating the sky
-        GameObject sky = Sky.create(this.gameObjects(), this.windowDimensions, SKY_LAYER);
-
-        // creating the night
-        GameObject night = Night.create(this.gameObjects(), NIGHT_LAYER, this.windowDimensions,
-                DAY_CYCLE_LENGTH / 2);
-
-        // creating terrain
-        this.terrain = new Terrain(this.gameObjects(), TERRAIN_LAYER, this.windowDimensions, seed);
-        this.terrain.createInRange(0,WINDOW_WIDTH);
-
-        // creating TreeCreator
-        this.tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER, seed);
-        this.tree.createInRange(0,WINDOW_WIDTH);
-
-        // creating sun
-        this.createSun(windowController);
+        // creating the world objects (sky, night, sun, terrain, and trees)
+        this.createWorldEnvironment(windowController);
 
         // creating Avatar
         this.createAvatar(imageReader, inputListener);
@@ -93,12 +73,36 @@ public class PepseGameManager extends GameManager {
         this.setLayersCollisions();
     }
 
+    public void createWorldEnvironment(WindowController windowController) {
+        // creating the sky
+        GameObject sky = Sky.create(this.gameObjects(), windowController.getWindowDimensions(), SKY_LAYER);
+
+        // creating the night
+        GameObject night = Night.create(this.gameObjects(), NIGHT_LAYER, windowController.getWindowDimensions(),
+                DAY_CYCLE_LENGTH / 2);
+
+        // creating sun
+        this.createSun(windowController);
+
+        // creating random seed
+        Random random = new Random();
+        int seed = random.nextInt();
+
+        // creating terrain
+        this.terrain = new Terrain(this.gameObjects(), TERRAIN_LAYER, windowController.getWindowDimensions(), seed);
+        this.terrain.createInRange(0,WINDOW_WIDTH);
+
+        // creating TreeCreator
+        this.tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER, seed);
+        this.tree.createInRange(0,WINDOW_WIDTH);
+    }
+
     private void setLayersCollisions() {
-        if (this.tree.haveTrees()) {
+        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TERRAIN_LAYER, true);
+        if (this.tree.hasTrees()) {
             this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TREE_LAYER, true);
             this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, TERRAIN_LAYER, true);
         }
-        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TERRAIN_LAYER, true);
     }
 
     /**
@@ -162,8 +166,6 @@ public class PepseGameManager extends GameManager {
     }
 
     public static void main(String[] args) {
-        new PepseGameManager(PEPSE, new Vector2(WINDOW_WIDTH,WINDOW_HEIGHT)).run();
+        new PepseGameManager(PEPSE_TAG, new Vector2(WINDOW_WIDTH,WINDOW_HEIGHT)).run();
     }
-
-
 }

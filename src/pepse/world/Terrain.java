@@ -35,7 +35,7 @@ public class Terrain {
     public Terrain(GameObjectCollection gameObjects, int groundLayer, Vector2 windowDimensions, int seed) {
         this.gameObjects = gameObjects;
         this.groundLayer = groundLayer;
-        this.groundHeightAtX0 = (float)1/3 * windowDimensions.y();
+        this.groundHeightAtX0 = (float) 1/3 * windowDimensions.y();
         this.windowDimensions = windowDimensions;
         this.noiseGenerator = new NoiseGenerator(seed);
 
@@ -44,12 +44,12 @@ public class Terrain {
     }
 
     /**
-     * A method that returns the real height of the ground at curtain x
+     * A method that returns the real height of the ground at a certain x
      * @param x represents the spot on the terrain we want to know the height of
      * @return float which represents the height of the ground at x
      */
     public float groundHeightAt(float x) {
-        x /= BLOCK_SIZE; // normalizing x to an running index
+        x /= BLOCK_SIZE; // normalizing x to a running index
         int generatedNoise = (int) (this.noiseGenerator.noise(x) * this.groundHeightAtX0);
         int realColHeight = (int) (this.windowDimensions.y() - this.groundHeightAtX0 + generatedNoise);
 
@@ -86,8 +86,7 @@ public class Terrain {
     }
 
 
-    private void createInRangeHelper ( int minX, int maxX){
-
+    private void createInRangeHelper ( int minX, int maxX) {
         // calculating the location of first block and last block in a row
         int LastBlockLocation = Math.ceilDivExact(maxX, BLOCK_SIZE) * BLOCK_SIZE;
         int firstBlockLocation = (minX / BLOCK_SIZE) * BLOCK_SIZE;
@@ -111,6 +110,8 @@ public class Terrain {
                 // creating the block
                 GameObject block = new Block(locationVector, rectangleRenderable);
                 block.setTag(NAME_TAG);
+                if(n < 2)
+                    block.physics().preventIntersectionsFromDirection(Vector2.ZERO);
                 gameObjects.addGameObject(block, groundLayer);
             }
         }

@@ -212,7 +212,7 @@ public class Tree {
      * A method that checks if there are trees
      * @return true if there is, false otherwise
      */
-    public boolean haveTrees() {
+    public boolean hasTrees() {
         return !this.treeXLocations.isEmpty();
     }
 
