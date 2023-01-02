@@ -4,15 +4,203 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Temp">
-      <change afterPath="$PROJECT_DIR$/src/pepse/world/energized.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_30__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_35__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_35__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_37__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_37__Changes_.xml" afterDir="false" />
+    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="avatar now implements energized interface">
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_01_2023_20_12_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_01_2023_20_12__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_12_2022_18_08_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_12_2022_18_08__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_12_2022_20_29_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_12_2022_20_29__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_12_2022_16_10_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_12_2022_16_10__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/CodeExamples/Billiards.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/CodeExamples/ManyManyBalls.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/CodeExamples/Platformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/CodeExamples/SimpleWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/CodeExamples/intention of code examples.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/DanoGameLab.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/copyrights.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/allclasses-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/allpackages-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/constant-values.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/GameManager.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/GameObject.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/GameObjectCollection.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/AABB/AABBCollider.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/AABB/AABBPairCollisionHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/AABB/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/AABB/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/Collider.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/Collision.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/CollisionResolver.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/GameObjectCollection.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/Layer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/LayerManager.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/PairCollisionData.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/PairCollisionHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/collisions/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/Component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/CoordinateSpace.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/GameObjectPhysics.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/RendererComponent.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/ScheduledTask.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/Transform.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/Transition.Interpolator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/Transition.TransitionType.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/Transition.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/components/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gocollection/Collision.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gocollection/GameObjectCollection.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gocollection/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gocollection/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/GameGUIComponent.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/GamePanel.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/ImageReader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/ResourceReader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/Sound.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/SoundReader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/UserInputListener.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/WindowController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/YesNoDialogAnswer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/mouse/MouseAction.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/mouse/MouseActionParams.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/mouse/MouseButton.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/mouse/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/mouse/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/AnimationRenderable.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/Camera.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/ImageRenderable.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/OvalRenderable.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/RectangleRenderable.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/Renderable.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/TextRenderable.MultilineHandling.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/TextRenderable.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/gui/rendering/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/ConcatIterator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/Counter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/FPSCounter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/ModifiableList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/MutableVector2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/MutableVector2Test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/Vector2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/VectorTester.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/danogl/util/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/element-list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/help-doc.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/index-all.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/member-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/member-search-index.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/overview-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/overview-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/package-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/package-search-index.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/resources/glass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/resources/x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/external/jquery/jquery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-bg_glass_55_fbf9ee_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-bg_glass_65_dadada_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-bg_glass_75_dadada_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-bg_glass_75_e6e6e6_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-bg_glass_95_fef1ec_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-bg_highlight-soft_75_cccccc_1x100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-icons_222222_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-icons_2e83ff_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-icons_454545_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-icons_888888_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/images/ui-icons_cd0a0a_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jquery-3.4.1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jquery-ui.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jquery-ui.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jquery-ui.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jquery-ui.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jquery-ui.structure.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jquery-ui.structure.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jszip-utils/dist/jszip-utils-ie.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jszip-utils/dist/jszip-utils-ie.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jszip-utils/dist/jszip-utils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jszip-utils/dist/jszip-utils.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jszip/dist/jszip.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script-dir/jszip/dist/jszip.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/serialized-form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/stylesheet.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/type-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/javadoc/type-search-index.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/GameManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/GameObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/NotifyOfMouseActions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/AABB/AABBCollider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/AABB/AABBCollision.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/AABB/AABBPairCollisionData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/AABB/AABBPairCollisionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/AABB/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/Collider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/Collision.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/CollisionResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/GameObjectCollection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/GameObjectPair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/Layer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/LayerManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/PairCollisionData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/PairCollisionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/PairCollisionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/collisions/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/components/Component.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/components/CoordinateSpace.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/components/GameObjectPhysics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/components/RendererComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/components/ScheduledTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/components/Transform.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/components/Transition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/components/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/GameGUIComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/ImageReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/KeyAdapterUserInputListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/ResourceReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/Sound.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/SoundReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/UserInputListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/WindowController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/mouse/MouseAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/mouse/MouseActionParams.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/mouse/MouseButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/mouse/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/AnimationRenderable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/Camera.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/ConfigureGraphics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/ImageRenderable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/OvalRenderable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/RectangleRenderable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/Renderable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/ShapeRenderable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/TextRenderable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/gui/rendering/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/util/ConcatIterator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/util/Counter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/util/FPSCounter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/util/ModifiableList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/util/MutableVector2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/util/Vector2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DanoGameLab/src/danogl/util/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/leftFoot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/rightFoot.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/world/Avatar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Avatar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/world/AvatarsEnergyDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/EnergyDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/EnergyDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/EnergyDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Terrain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +360,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672675870961</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL‎-00011" summary="avatar now implements energized interface">
+      <created>1672686982361</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL‎-00011" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1672686982361</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,6 +406,7 @@
     <MESSAGE value="Partial - Avatar" />
     <MESSAGE value="Avatar - Rendering" />
     <MESSAGE value="Temp" />
-    <option name="LAST_COMMIT_MESSAGE" value="Temp" />
+    <MESSAGE value="avatar now implements energized interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="avatar now implements energized interface" />
   </component>
 </project>

@@ -10,7 +10,6 @@ public class EnergyDisplay extends GameObject {
 
     private static final String STRING_TO_DISPLAY = "Energy: ";
 
-//    private final float valueToDisplay;
     private final TextRenderable textRenderable;
     private final energized obj;
 

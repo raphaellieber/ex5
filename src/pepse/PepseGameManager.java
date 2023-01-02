@@ -79,8 +79,8 @@ public class PepseGameManager extends GameManager {
         GameObject sky = Sky.create(this.gameObjects(), windowController.getWindowDimensions(), SKY_LAYER);
 
         // creating the night
-        GameObject night = Night.create(this.gameObjects(), NIGHT_LAYER, windowController.getWindowDimensions(),
-                DAY_CYCLE_LENGTH / 2);
+        GameObject night = Night.create(this.gameObjects(), NIGHT_LAYER,
+                windowController.getWindowDimensions(), DAY_CYCLE_LENGTH / 2);
 
         // creating sun
         this.createSun(windowController);
@@ -90,19 +90,20 @@ public class PepseGameManager extends GameManager {
         int seed = random.nextInt();
 
         // creating terrain
-        this.terrain = new Terrain(this.gameObjects(), UPPER_TERRAIN_LAYER, LOWER_TERRAIN_LAYER, windowController.getWindowDimensions(), seed);
+        this.terrain = new Terrain(this.gameObjects(), UPPER_TERRAIN_LAYER, LOWER_TERRAIN_LAYER,
+                windowController.getWindowDimensions(), seed);
         this.terrain.createInRange(200,1000);
 
         // creating TreeCreator
         this.tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER, seed);
-        this.tree.createInRange(0,WINDOW_WIDTH);
+//        this.tree.createInRange(0,WINDOW_WIDTH);
     }
 
     private void setLayersCollisions() {
-        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, LOWER_TERRAIN_LAYER, true);
+        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, UPPER_TERRAIN_LAYER, true);
         if (this.tree.hasTrees()) {
             this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TREE_LAYER, true);
-            this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, LOWER_TERRAIN_LAYER, true);
+            this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, UPPER_TERRAIN_LAYER, true);
         }
     }
 
@@ -161,7 +162,9 @@ public class PepseGameManager extends GameManager {
         int minX = (int)this.avatar.getCenter().x() - TERRAIN_FACTOR;
         int maxX = (int)this.avatar.getCenter().x() + TERRAIN_FACTOR;
         this.terrain.createInRange(minX, maxX);
-        this.tree.createInRange(minX, maxX);
+//        this.tree.createInRange(minX, maxX);
+
+//        System.out.println(this.gameObjects());
 
         this.setLayersCollisions();
     }

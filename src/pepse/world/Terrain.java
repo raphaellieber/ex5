@@ -12,6 +12,11 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Terrain {
+    private static final boolean LEFT = false;
+    private static final boolean RIGHT = true;
+    private static final boolean EXTEND = true;
+    private static final boolean NO_EXTEND = false;
+
 
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final String NAME_TAG = "ground";
@@ -19,14 +24,14 @@ public class Terrain {
     public static final int BLOCK_SIZE = 30;
 
     private final GameObjectCollection gameObjects;
-    private int upperGroundLayer;
+    private final int upperGroundLayer;
     private final int lowerGroundLayer;
     private final float groundHeightAtX0;
     private final Vector2 windowDimensions;
     private final NoiseGenerator noiseGenerator;
     private int minXOnTerrain;
     private int maxXOnTerrain;
-    private LinkedList<GameObject[]> blockColumList;
+    private final LinkedList<GameObject[]> blockColumList;
 
 
     /**
@@ -44,10 +49,8 @@ public class Terrain {
         this.windowDimensions = windowDimensions;
         this.noiseGenerator = new NoiseGenerator(seed);
 
-        this.minXOnTerrain = (int) (windowDimensions.x()/4); // default value
-//        this.minXOnTerrain = 350; // default value
-        this.maxXOnTerrain = (int) (windowDimensions.x()/4); // default value
-//        this.maxXOnTerrain = 650; // default value
+        this.minXOnTerrain = (int) (windowDimensions.x()/2); // default value
+        this.maxXOnTerrain = (int) (windowDimensions.x()/2); // default value
 
         this.blockColumList = new LinkedList<>();
     }
@@ -72,48 +75,42 @@ public class Terrain {
      * @param maxX represents the top bound
      */
     public void createInRange(int minX, int maxX) {
+        // normalizing minX and maxX to a size that fits the block size
+        int normalizedMaxX = Math.ceilDivExact(maxX, BLOCK_SIZE) * BLOCK_SIZE;
+        int normalizedMinX = (minX / BLOCK_SIZE) * BLOCK_SIZE;
+        if (minX < 0) { normalizedMinX -= BLOCK_SIZE; }
 
         //    minX.......|(this.min)...................(this.max)|......maxX
-        if (minX < this.minXOnTerrain && maxX > this.maxXOnTerrain) {
-            createInRangeHelper(minX, this.minXOnTerrain, false, false);
-            createInRangeHelper(this.maxXOnTerrain, maxX, true, false);
-            this.minXOnTerrain = minX;
-            this.maxXOnTerrain = maxX;
-            System.out.println("In first");
-            System.out.println("minX: " + minX);
-            System.out.println("maxX: " + maxX);
-            System.out.println("thisMinX: " + this.minXOnTerrain);
-            System.out.println("thisMaxX: " + this.maxXOnTerrain);
+        if (normalizedMinX < this.minXOnTerrain && normalizedMaxX > this.maxXOnTerrain) {
+            createInRangeHelper(normalizedMinX, this.minXOnTerrain, LEFT, NO_EXTEND);
+            createInRangeHelper(this.maxXOnTerrain, normalizedMaxX, RIGHT, NO_EXTEND);
+            this.minXOnTerrain = normalizedMinX ;
+            this.maxXOnTerrain = normalizedMaxX;
         }
 
         //   |(this.min)......minX...................(this.max)|......maxX
-        else if (minX > this.minXOnTerrain && minX < this.maxXOnTerrain && maxX > this.maxXOnTerrain) {
-            createInRangeHelper(this.maxXOnTerrain, maxX, true, true);
-//            this.minXOnTerrain = maxX - this.maxXOnTerrain;
-            this.maxXOnTerrain = maxX;
-            System.out.println("creating right");
+        else if (normalizedMaxX > this.maxXOnTerrain) {
+            createInRangeHelper(this.maxXOnTerrain + BLOCK_SIZE, normalizedMaxX, RIGHT, EXTEND);
+            this.maxXOnTerrain = normalizedMaxX ;
         }
 
-        //   minX.......|(this.min)...................maxX......(this.max)|
-        else if (maxX < this.maxXOnTerrain && maxX > this.minXOnTerrain && minX < this.minXOnTerrain) {
-            createInRangeHelper(minX,this.minXOnTerrain, false, true);
-//            this.maxXOnTerrain = maxX - this.maxXOnTerrain;
+            //   minX.......|(this.min)...................maxX......(this.max)|
+        else if (normalizedMinX < this.minXOnTerrain) {
+            System.out.println(normalizedMaxX);
+            System.out.println(normalizedMinX);
+            System.out.println(this.maxXOnTerrain);
+            System.out.println(this.minXOnTerrain);
 
-            this.minXOnTerrain = minX;
+
+            createInRangeHelper(normalizedMinX, this.minXOnTerrain - BLOCK_SIZE, LEFT, EXTEND);
+            this.minXOnTerrain = normalizedMinX;
             System.out.println("creating left");
         }
     }
 
-
     private void createInRangeHelper ( int minX, int maxX, boolean LTR, boolean extension) {
-        // calculating the location of first block and last block in a row
-        int LastBlockLocation = Math.ceilDivExact(maxX, BLOCK_SIZE) * BLOCK_SIZE;
-        int firstBlockLocation = (minX / BLOCK_SIZE) * BLOCK_SIZE;
-        if (minX < 0) {
-            firstBlockLocation -= BLOCK_SIZE;
-        }
 
-        for (int x = firstBlockLocation; x <= LastBlockLocation; x += BLOCK_SIZE) {
+        for (int x = minX; x <= maxX; x += BLOCK_SIZE) {
 
             // getting the height of the col
             int colHeight = (int) this.groundHeightAt(x);
@@ -131,32 +128,41 @@ public class Terrain {
                 block.setTag(NAME_TAG);
                 blockArray[n] = block;  // saving the column of the current x to the linked-list
 
-//                if(n < 3) {
-//                    gameObjects.addGameObject(block, upperGroundLayer);
-//                }
-//                else gameObjects.addGameObject(block, lowerGroundLayer);
-                gameObjects.addGameObject(block, lowerGroundLayer);
+                // dividing the blocks into different layers
+//                if(n < 2) { gameObjects.addGameObject(block, upperGroundLayer); }
+//                else { gameObjects.addGameObject(block, lowerGroundLayer); }
+                gameObjects.addGameObject(block, upperGroundLayer);
             }
-            if (extension) {
 
-                if (LTR) { // removing first
-                    this.blockColumList.addLast(blockArray);
-                    GameObject[] temp = this.blockColumList.removeFirst();
-                    for (GameObject obj : temp) { gameObjects.removeGameObject(obj, lowerGroundLayer); }
-                    this.minXOnTerrain += BLOCK_SIZE;
-                    System.out.println("removing first");
-                } else { // removing last
-                    this.blockColumList.addFirst(blockArray);
-                    for (GameObject obj : this.blockColumList.removeLast()) { gameObjects.removeGameObject(obj, lowerGroundLayer);  }
-                    this.maxXOnTerrain -= BLOCK_SIZE;
-
-                    System.out.println("removing last");
-                }
-            }
+            // extending the terrain if needed
+            if (extension) { terrainExtension(LTR, blockArray); }
+            else { this.blockColumList.addLast(blockArray); }
 
         }
     }
 
+    private void terrainExtension(boolean LTR, GameObject[] blockArray) {
+        int tmp_layer = this.upperGroundLayer;
+        GameObject[] removedBlockArray;
+
+        if (LTR) { // removing first
+            this.blockColumList.addLast(blockArray);
+            removedBlockArray = this.blockColumList.removeFirst();
+            this.minXOnTerrain += BLOCK_SIZE;
+        }
+
+        else{ // removing last
+            this.blockColumList.addFirst(blockArray);
+            removedBlockArray = this.blockColumList.removeLast();
+            this.maxXOnTerrain -= BLOCK_SIZE;
+        }
+
+        for (int i = 0; i < TERRAIN_DEPTH; i++) {
+//            if (i > 2) { tmp_layer = this.lowerGroundLayer; }  //determining the layer of the block
+            gameObjects.removeGameObject(removedBlockArray[i], tmp_layer);
+        }
+
+    }
 
 
 }

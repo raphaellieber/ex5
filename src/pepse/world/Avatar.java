@@ -67,11 +67,16 @@ public class Avatar extends GameObject implements energized{
         cancelHorizontalVelocity();
         this.renderer().setRenderable(this.standStillImg);
 
-        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT))
+        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+//            System.out.println(this.getCenter().x());  // TODO
+
             moveRight();
-        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT))
+        }
+        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             moveLeft();
-        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {
+//            System.out.println(this.getCenter().x());   // TODO
+        }
+            if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {
             if (inputListener.isKeyPressed(KeyEvent.VK_SHIFT) && energy > 0)
                 fly();
             else jump();
