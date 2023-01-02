@@ -76,7 +76,7 @@ public class Terrain {
      */
     public void createInRange(int minX, int maxX) {
         // normalizing minX and maxX to a size that fits the block size
-        int normalizedMaxX = Math.ceilDivExact(maxX, BLOCK_SIZE) * BLOCK_SIZE;
+        int normalizedMaxX = (int) (Math.ceil(maxX / BLOCK_SIZE) * BLOCK_SIZE);
         int normalizedMinX = (minX / BLOCK_SIZE) * BLOCK_SIZE;
         if (minX < 0) { normalizedMinX -= BLOCK_SIZE; }
 
