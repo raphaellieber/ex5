@@ -31,7 +31,8 @@ public class PepseGameManager extends GameManager {
     private static final int SKY_LAYER = -200;
     private static final int SUN_LAYER = -199;
     private static final int SUN_HALO_LAYER = -198;
-    private static final int TERRAIN_LAYER = -150;
+    private static final int UPPER_TERRAIN_LAYER = -151;
+    private static final int LOWER_TERRAIN_LAYER = -150;
     private static final int TREE_LAYER = -149;
     private static final int LEAF_LAYER = -148;
     private static final int AVATAR_LAYER = 0;
@@ -39,7 +40,7 @@ public class PepseGameManager extends GameManager {
     private static final int UI_LAYER = 200;
 
     private static final int TEXT_SIZE = 25;
-    private static final int TERRAIN_FACTOR = 1000;
+    private static final int TERRAIN_FACTOR = 400;
 
     private static final float DAY_CYCLE_LENGTH = 120;
     private static final Color SUN_HALO_COLOR = new Color(255, 255, 0, 20);
@@ -89,8 +90,8 @@ public class PepseGameManager extends GameManager {
         int seed = random.nextInt();
 
         // creating terrain
-        this.terrain = new Terrain(this.gameObjects(), TERRAIN_LAYER, windowController.getWindowDimensions(), seed);
-        this.terrain.createInRange(0,WINDOW_WIDTH);
+        this.terrain = new Terrain(this.gameObjects(), UPPER_TERRAIN_LAYER, LOWER_TERRAIN_LAYER, windowController.getWindowDimensions(), seed);
+        this.terrain.createInRange(200,1000);
 
         // creating TreeCreator
         this.tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER, seed);
@@ -98,10 +99,10 @@ public class PepseGameManager extends GameManager {
     }
 
     private void setLayersCollisions() {
-        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TERRAIN_LAYER, true);
+        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, LOWER_TERRAIN_LAYER, true);
         if (this.tree.hasTrees()) {
             this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TREE_LAYER, true);
-            this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, TERRAIN_LAYER, true);
+            this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, LOWER_TERRAIN_LAYER, true);
         }
     }
 

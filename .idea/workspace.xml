@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Avatar - Rendering">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_12_2022_21_37_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_12_2022_21_37__Changes_.xml" beforeDir="false" />
+    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Temp">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/standstill.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/standstill.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/world/Avatar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Avatar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/world/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Block.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Terrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/world/trees/Tree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/trees/Tree.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +90,7 @@
       <workItem from="1671646599641" duration="7100000" />
       <workItem from="1671705515320" duration="22220000" />
       <workItem from="1672071781832" duration="31607000" />
-      <workItem from="1672608116407" duration="6840000" />
+      <workItem from="1672608116407" duration="13319000" />
     </task>
     <task id="LOCAL-00001" summary="Initial version">
       <created>1671651052026</created>
@@ -160,7 +155,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672508455541</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Temp">
+      <created>1672675870961</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1672675870961</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,6 +188,7 @@
     <MESSAGE value="Add Night functionality.&#10;Adapted Sun to start from midday." />
     <MESSAGE value="Partial - Avatar" />
     <MESSAGE value="Avatar - Rendering" />
-    <option name="LAST_COMMIT_MESSAGE" value="Avatar - Rendering" />
+    <MESSAGE value="Temp" />
+    <option name="LAST_COMMIT_MESSAGE" value="Temp" />
   </component>
 </project>
