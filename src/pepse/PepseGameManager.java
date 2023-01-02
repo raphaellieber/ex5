@@ -10,7 +10,7 @@ import danogl.gui.WindowController;
 import danogl.gui.rendering.Camera;
 import danogl.util.Vector2;
 import pepse.world.Avatar;
-import pepse.world.AvatarsEnergyDisplay;
+import pepse.world.EnergyDisplay;
 import pepse.world.Sky;
 import pepse.world.Terrain;
 import pepse.world.daynight.Night;
@@ -111,7 +111,7 @@ public class PepseGameManager extends GameManager {
      */
     private void createEnergyDisplay() {
         Vector2 diam = Vector2.ONES.mult(TEXT_SIZE);
-        AvatarsEnergyDisplay energyDisplay = new AvatarsEnergyDisplay(Vector2.ZERO, diam, this.avatar);
+        EnergyDisplay energyDisplay = new EnergyDisplay(Vector2.ZERO, diam, this.avatar);
         energyDisplay.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         this.gameObjects().addGameObject(energyDisplay, UI_LAYER);
     }

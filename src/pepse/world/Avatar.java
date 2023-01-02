@@ -11,7 +11,7 @@ import danogl.util.Vector2;
 
 import java.awt.event.KeyEvent;
 
-public class Avatar extends GameObject{
+public class Avatar extends GameObject implements energized{
     public static final Vector2 AVATAR_DIMENSIONS = new Vector2(50, 70);
     private static final float JUMP_VELOCITY_Y = -300;
     private static final float FALL_ACCELERATION_Y = 500;

@@ -6,26 +6,26 @@ import danogl.util.Vector2;
 
 import java.awt.*;
 
-public class AvatarsEnergyDisplay extends GameObject {
+public class EnergyDisplay extends GameObject {
 
     private static final String STRING_TO_DISPLAY = "Energy: ";
 
 //    private final float valueToDisplay;
     private final TextRenderable textRenderable;
-    private final Avatar avatar;
+    private final energized obj;
 
     /**
      * Constructor
      * @param topLeftCorner Position of the object, in window coordinates (pixels).
      *      *               Note that (0,0) is the top-left corner of the window.
      * @param dimensions    Width and height in window coordinates.
-     * @param avatar        represents the avatar object
+     * @param obj        represents the energized object
      */
-    public AvatarsEnergyDisplay(Vector2 topLeftCorner, Vector2 dimensions, Avatar avatar) {
+    public EnergyDisplay(Vector2 topLeftCorner, Vector2 dimensions, energized obj) {
         super(topLeftCorner, dimensions, null);
 
-        this.avatar = avatar;
-        String stringValue = Float.toString(avatar.getEnergy());
+        this.obj = obj;
+        String stringValue = Float.toString(obj.getEnergy());
         this.textRenderable = new TextRenderable(STRING_TO_DISPLAY + stringValue);
         this.textRenderable.setColor(Color.black);
         this.renderer().setRenderable(this.textRenderable);
@@ -45,7 +45,7 @@ public class AvatarsEnergyDisplay extends GameObject {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        String stringValue = Float.toString(this.avatar.getEnergy());
+        String stringValue = Float.toString(this.obj.getEnergy());
         this.textRenderable.setString(STRING_TO_DISPLAY + stringValue);
     }
 }

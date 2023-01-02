@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Temp">
+      <change afterPath="$PROJECT_DIR$/src/pepse/world/energized.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_30__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_35__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_35__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_37__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_12_2022_19_37__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/world/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pepse/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Terrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/Avatar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Avatar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/AvatarsEnergyDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/EnergyDisplay.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +26,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -62,6 +67,11 @@
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="pepse.world" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.PepseGame">
     <configuration name="PepseGame" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="pepse.PepseGameManager" />
@@ -173,7 +183,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
