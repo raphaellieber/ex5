@@ -9,6 +9,7 @@ import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.gui.rendering.Camera;
 import danogl.util.Vector2;
+import pepse.util.ColorSupplier;
 import pepse.world.Avatar;
 import pepse.world.EnergyDisplay;
 import pepse.world.Sky;
@@ -88,6 +89,8 @@ public class PepseGameManager extends GameManager {
         // creating random seed
         Random random = new Random();
         int seed = random.nextInt();
+        ColorSupplier.setSeed(seed); // setting the seed of the color creator
+
 
         // creating terrain
         this.terrain = new Terrain(this.gameObjects(), UPPER_TERRAIN_LAYER, LOWER_TERRAIN_LAYER,

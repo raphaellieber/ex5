@@ -47,4 +47,7 @@ public final class ColorSupplier {
         int channel = random.nextInt(max-min+1) + min;
         return Math.min(255, Math.max(channel, 0));
     }
+
+
+    public static void setSeed(long seed){ random.setSeed(seed);}
 }
