@@ -99,7 +99,7 @@ public class Tree {
     private void createInRangeHelper(int minX, int maxX){
 
         // calculating the location of normalized minX and maxX:
-        int LastBlockLocation = Math.ceilDivExact(maxX, TRUNK_BLOCK_SIZE) * TRUNK_BLOCK_SIZE;
+        int LastBlockLocation = (int) (Math.ceil(maxX / TRUNK_BLOCK_SIZE) * TRUNK_BLOCK_SIZE);
         int firstBlockLocation = (minX / TRUNK_BLOCK_SIZE) * TRUNK_BLOCK_SIZE;
         if (minX < 0) { firstBlockLocation -= TRUNK_BLOCK_SIZE; }
 
@@ -141,7 +141,7 @@ public class Tree {
      * @return returns the height of the tree
      */
     private int createTrunk(int LeftX, float LeftY) {
-        int treeHeight = this.random.nextInt(MIN_TREE_HEIGHT, MAX_TREE_HEIGHT);
+        int treeHeight = MIN_TREE_HEIGHT + this.random.nextInt(MAX_TREE_HEIGHT - MIN_TREE_HEIGHT);
 
         for (int i = 0; i < treeHeight; i++) {
             // creating render-ability for all the blocks of the trunk:

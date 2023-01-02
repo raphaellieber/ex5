@@ -83,8 +83,8 @@ public class Leaf extends GameObject {
     private void startLeafLifeCycle(){
 
         // Creating for each leaf random lifeTime and random waitTime until the transitions will start
-        float movementWaitTime = this.rand.nextInt(MIN_MOVE_WAIT_TIME, MAX_MOVE_WAIT_TIME);
-        float lifeTime = this.rand.nextInt(MIN_LIFE_TIME, MAX_LIFE_TIME);
+        float movementWaitTime = MIN_MOVE_WAIT_TIME + this.rand.nextInt(MAX_MOVE_WAIT_TIME - MIN_MOVE_WAIT_TIME);
+        float lifeTime = MIN_LIFE_TIME + this.rand.nextInt(MAX_LIFE_TIME - MIN_LIFE_TIME);
 
         // Initializing the Scheduled Transition Task for the movement Strategy
         new ScheduledTask(this, movementWaitTime, false, this::movementStrategy);
@@ -136,7 +136,7 @@ public class Leaf extends GameObject {
      */
     private void leafDeath() {
         // getting a random leaf death time, on time up the leaf will rebirth
-        int deathTime = this.rand.nextInt(MIN_DEATH_TIME, MAX_DEATH_TIME);
+        int deathTime = MIN_DEATH_TIME + this.rand.nextInt(MAX_DEATH_TIME - MIN_DEATH_TIME);
         new ScheduledTask(this, deathTime, false, this::leafRecreation);
     }
 
