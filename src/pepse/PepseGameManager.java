@@ -21,7 +21,10 @@ import pepse.world.daynight.SunHalo;
 import pepse.world.trees.Tree;
 
 import java.awt.*;
+import java.util.LinkedList;
 import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class PepseGameManager extends GameManager {
 
@@ -95,7 +98,7 @@ public class PepseGameManager extends GameManager {
         // creating terrain
         this.terrain = new Terrain(this.gameObjects(), TERRAIN_LAYER,
                 windowController.getWindowDimensions(), seed);
-        this.terrain.initializeTerrain(200, 1000);
+        this.terrain.creatInRange(200, 1000);
 
         // creating TreeCreator
         this.tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER, seed);
@@ -166,11 +169,17 @@ public class PepseGameManager extends GameManager {
     }
 
     private void expand() {
-        if(avatar.getCenter().x() - TERRAIN_FACTOR <= terrain.getBlockColumList().getFirst()[0].getCenter().x()) {
-            terrain.extendLeft();
+        LinkedList<GameObject[]> blockColumnList = terrain.getBlockColumList();
+
+        if(avatar.getCenter().x() - TERRAIN_FACTOR <= blockColumnList.getFirst()[0].getCenter().x()) {
+//            terrain.extendLeft();
+            terrain.extend(blockColumnList::getFirst, blockColumnList::addFirst, blockColumnList::removeLast,
+                    - terrain.getBlockSize());
         }
         else if(avatar.getCenter().x() + TERRAIN_FACTOR >= terrain.getBlockColumList().getLast()[0].getCenter().x()) {
-            terrain.extendRight();
+//            terrain.extendRight();
+            terrain.extend(blockColumnList::getLast, blockColumnList::addLast, blockColumnList::removeFirst,
+                    terrain.getBlockSize());
         }
     }
 

@@ -59,7 +59,8 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
-    "show.migrate.to.gradle.popup": "false"
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -96,6 +97,8 @@
       <workItem from="1671705515320" duration="22220000" />
       <workItem from="1672071781832" duration="31607000" />
       <workItem from="1672608116407" duration="13319000" />
+      <workItem from="1672730247995" duration="193000" />
+      <workItem from="1672731117917" duration="6259000" />
     </task>
     <task id="LOCAL-00001" summary="Initial version">
       <created>1671651052026</created>
@@ -195,7 +198,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672705316450</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class.">
+      <created>1672707698722</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1672707698722</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
