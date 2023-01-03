@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Java 11 - Adapted Math.ceiling method, and nextInt method.">
+    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Terrain.java" afterDir="false" />
@@ -188,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672698844024</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class.">
+      <created>1672705316450</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1672705316450</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,6 +237,7 @@
     <MESSAGE value="avatar now implements energized interface" />
     <MESSAGE value="Java 11" />
     <MESSAGE value="Java 11 - Adapted Math.ceiling method, and nextInt method." />
-    <option name="LAST_COMMIT_MESSAGE" value="Java 11 - Adapted Math.ceiling method, and nextInt method." />
+    <MESSAGE value="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class." />
+    <option name="LAST_COMMIT_MESSAGE" value="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class." />
   </component>
 </project>

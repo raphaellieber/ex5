@@ -154,7 +154,7 @@ public class PepseGameManager extends GameManager {
         // setting avatars location:
         int x = WINDOW_WIDTH / 2;
         if (this.tree.treeAtX(x)) {x += 30;}  // makes sure the avatar won't start on a tree
-        float y = this.terrain.groundHeightAt(x) - Avatar.AVATAR_DIMENSIONS.y();   // TODO -> Is it okay making a static variable public?
+        float y = this.terrain.groundHeightAt(x) - Avatar.AVATAR_DIMENSIONS.y(); // TODO -> Is it okay making a static variable public?
         Vector2 location = new Vector2(x, y);
 
         // creating avatar:
@@ -177,6 +177,4 @@ public class PepseGameManager extends GameManager {
     public static void main(String[] args) {
         new PepseGameManager(PEPSE_TAG, new Vector2(WINDOW_WIDTH,WINDOW_HEIGHT)).run();
     }
-
-
 }

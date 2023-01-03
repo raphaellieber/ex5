@@ -12,12 +12,6 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Terrain {
-    private static final boolean LEFT = false;
-    private static final boolean RIGHT = true;
-    private static final boolean EXTEND = true;
-    private static final boolean NO_EXTEND = false;
-
-
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final String BLOCK_TAG = "ground";
     private static final int TERRAIN_DEPTH = 20;
@@ -52,6 +46,12 @@ public class Terrain {
         return blockColumList;
     }
 
+    /**
+     * Creates the terrain that should be initialized at the beginning of the Game using minX and maxX as
+     * left and right extremities, respectively.
+     * @param minX: the x coordinate of the left extremity.
+     * @param maxX: the x coordinate of the right extremity.
+     */
     public void initializeTerrain(int minX, int maxX) {
         for (int i = minX; i < maxX; i += BLOCK_SIZE) {
             GameObject[] blockArray = createBlockArray(i);
@@ -102,8 +102,7 @@ public class Terrain {
         float newBlockPositionX = lastBlockPositionX + BLOCK_SIZE;
         GameObject[] blockArray = createBlockArray(newBlockPositionX);
         blockColumList.addLast(blockArray);
-        removeBlockArray(blockColumList.getFirst(), groundLayer);
-        blockColumList.removeFirst();
+        removeBlockArray(blockColumList.removeFirst(), groundLayer);
     }
 
     public void extendLeft() {
@@ -111,7 +110,6 @@ public class Terrain {
         float newBlockPositionX = firstBlockPositionX - BLOCK_SIZE;
         GameObject[] blockArray = createBlockArray(newBlockPositionX);
         blockColumList.addFirst(blockArray);
-        removeBlockArray(blockColumList.getLast(), groundLayer);
-        blockColumList.removeLast();
+        removeBlockArray(blockColumList.removeLast(), groundLayer);
     }
 }
