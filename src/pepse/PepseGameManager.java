@@ -2,6 +2,7 @@ package pepse;
 
 import danogl.GameManager;
 import danogl.GameObject;
+import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
@@ -29,19 +30,18 @@ public class PepseGameManager extends GameManager {
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 700;
 
-    private static final int SKY_LAYER = -200;
-    private static final int SUN_LAYER = -199;
-    private static final int SUN_HALO_LAYER = -198;
-    private static final int UPPER_TERRAIN_LAYER = -151;
-    private static final int LOWER_TERRAIN_LAYER = -150;
-    private static final int TREE_LAYER = -149;
-    private static final int LEAF_LAYER = -148;
-    private static final int AVATAR_LAYER = 0;
-    private static final int NIGHT_LAYER = 100;
-    private static final int UI_LAYER = 200;
+    private static final int SKY_LAYER = Layer.BACKGROUND;
+    private static final int SUN_LAYER = SKY_LAYER + 1;
+    private static final int SUN_HALO_LAYER = SUN_LAYER + 1;
+    private static final int TERRAIN_LAYER = Layer.STATIC_OBJECTS;
+    private static final int TREE_LAYER = TERRAIN_LAYER + 1;
+    private static final int LEAF_LAYER = TREE_LAYER + 1;
+    private static final int AVATAR_LAYER = Layer.DEFAULT;
+    private static final int NIGHT_LAYER = Layer.FOREGROUND;
+    private static final int UI_LAYER = Layer.UI;
 
     private static final int TEXT_SIZE = 25;
-    private static final int TERRAIN_FACTOR = 400;
+    private static final int TERRAIN_FACTOR = 300;
 
     private static final float DAY_CYCLE_LENGTH = 120;
     private static final Color SUN_HALO_COLOR = new Color(255, 255, 0, 20);
@@ -93,20 +93,28 @@ public class PepseGameManager extends GameManager {
 
 
         // creating terrain
-        this.terrain = new Terrain(this.gameObjects(), UPPER_TERRAIN_LAYER, LOWER_TERRAIN_LAYER,
+        this.terrain = new Terrain(this.gameObjects(), TERRAIN_LAYER,
                 windowController.getWindowDimensions(), seed);
-        this.terrain.createInRange(200,1000);
+        this.terrain.initializeTerrain(200, 1000);
 
         // creating TreeCreator
         this.tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER, seed);
 //        this.tree.createInRange(0,WINDOW_WIDTH);
     }
 
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        // adapting trees and terrain
+        this.expand();
+        this.setLayersCollisions();
+    }
+
     private void setLayersCollisions() {
-        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, UPPER_TERRAIN_LAYER, true);
+        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TERRAIN_LAYER, true);
         if (this.tree.hasTrees()) {
             this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TREE_LAYER, true);
-            this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, UPPER_TERRAIN_LAYER, true);
+            this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, TERRAIN_LAYER, true);
         }
     }
 
@@ -157,22 +165,18 @@ public class PepseGameManager extends GameManager {
                 windowDimensions));
     }
 
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-
-        // creating trees and terrain
-        int minX = (int)this.avatar.getCenter().x() - TERRAIN_FACTOR;
-        int maxX = (int)this.avatar.getCenter().x() + TERRAIN_FACTOR;
-        this.terrain.createInRange(minX, maxX);
-//        this.tree.createInRange(minX, maxX);
-
-//        System.out.println(this.gameObjects());
-
-        this.setLayersCollisions();
+    private void expand() {
+        if(avatar.getCenter().x() - TERRAIN_FACTOR <= terrain.getBlockColumList().getFirst()[0].getCenter().x()) {
+            terrain.extendLeft();
+        }
+        else if(avatar.getCenter().x() + TERRAIN_FACTOR >= terrain.getBlockColumList().getLast()[0].getCenter().x()) {
+            terrain.extendRight();
+        }
     }
 
     public static void main(String[] args) {
         new PepseGameManager(PEPSE_TAG, new Vector2(WINDOW_WIDTH,WINDOW_HEIGHT)).run();
     }
+
+
 }
