@@ -57,7 +57,7 @@ public class Terrain {
      * @param maxX: the x coordinate of the right extremity.
      */
     public void creatInRange(int minX, int maxX) {
-        for (int i = minX; i < maxX; i += BLOCK_SIZE) {
+        for (int i = minX; i <= maxX; i += BLOCK_SIZE) {
             GameObject[] blockArray = createBlockArray(i);
             blockColumList.addLast(blockArray);
         }
@@ -101,29 +101,29 @@ public class Terrain {
             gameObjects.removeGameObject(block, layer);
     }
 
-    public void extend(Supplier<GameObject[]> blockArrayAtExtremity,
-                       Consumer<GameObject[]> addBlockArray,
-                       Supplier<GameObject[]> blockArrayToRemove, int increment) {
-        float extremityBlockPositionX = blockArrayAtExtremity.get()[0].getCenter().x();
-        float newBlockPositionX = extremityBlockPositionX + increment;
-        GameObject[] newBlockArray = createBlockArray(newBlockPositionX);
-        addBlockArray.accept(newBlockArray);
-        removeBlockArray(blockArrayToRemove.get(), groundLayer);
+//    public void extend(Supplier<GameObject[]> blockArrayAtExtremity,
+//                       Consumer<GameObject[]> addBlockArray,
+//                       Supplier<GameObject[]> blockArrayToRemove, int increment) {
+//        float extremityBlockPositionX = blockArrayAtExtremity.get()[0].getCenter().x();
+//        float newBlockPositionX = extremityBlockPositionX + increment;
+//        GameObject[] newBlockArray = createBlockArray(newBlockPositionX);
+//        addBlockArray.accept(newBlockArray);
+//        removeBlockArray(blockArrayToRemove.get(), groundLayer);
+//    }
+
+    public void extendRight() {
+        float lastBlockPositionX = blockColumList.getLast()[0].getCenter().x();
+        float newBlockPositionX = lastBlockPositionX + BLOCK_SIZE;
+        GameObject[] blockArray = createBlockArray(newBlockPositionX);
+        blockColumList.addLast(blockArray);
+        removeBlockArray(blockColumList.removeFirst(), groundLayer);
     }
 
-//    public void extendRight() {
-//        float lastBlockPositionX = blockColumList.getLast()[0].getCenter().x();
-//        float newBlockPositionX = lastBlockPositionX + BLOCK_SIZE;
-//        GameObject[] blockArray = createBlockArray(newBlockPositionX);
-//        blockColumList.addLast(blockArray);
-//        removeBlockArray(blockColumList.removeFirst(), groundLayer);
-//    }
-//
-//    public void extendLeft() {
-//        float firstBlockPositionX = blockColumList.getFirst()[0].getCenter().x();
-//        float newBlockPositionX = firstBlockPositionX - BLOCK_SIZE;
-//        GameObject[] blockArray = createBlockArray(newBlockPositionX);
-//        blockColumList.addFirst(blockArray);
-//        removeBlockArray(blockColumList.removeLast(), groundLayer);
-//    }
+    public void extendLeft() {
+        float firstBlockPositionX = blockColumList.getFirst()[0].getCenter().x();
+        float newBlockPositionX = firstBlockPositionX - BLOCK_SIZE;
+        GameObject[] blockArray = createBlockArray(newBlockPositionX);
+        blockColumList.addFirst(blockArray);
+        removeBlockArray(blockColumList.removeLast(), groundLayer);
+    }
 }

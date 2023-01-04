@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class.">
+    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Terrain expansion: using Callback Strategy.">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/PepseGameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pepse/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Terrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pepse/world/trees/Tree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/trees/Tree.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +46,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -98,7 +104,7 @@
       <workItem from="1672071781832" duration="31607000" />
       <workItem from="1672608116407" duration="13319000" />
       <workItem from="1672730247995" duration="193000" />
-      <workItem from="1672731117917" duration="6259000" />
+      <workItem from="1672731117917" duration="37477000" />
     </task>
     <task id="LOCAL-00001" summary="Initial version">
       <created>1671651052026</created>
@@ -205,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672707698722</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Terrain expansion: using Callback Strategy.">
+      <created>1672740184860</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1672740184861</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,6 +261,7 @@
     <MESSAGE value="Java 11" />
     <MESSAGE value="Java 11 - Adapted Math.ceiling method, and nextInt method." />
     <MESSAGE value="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class." />
-    <option name="LAST_COMMIT_MESSAGE" value="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class." />
+    <MESSAGE value="Terrain expansion: using Callback Strategy." />
+    <option name="LAST_COMMIT_MESSAGE" value="Terrain expansion: using Callback Strategy." />
   </component>
 </project>

@@ -23,8 +23,6 @@ import pepse.world.trees.Tree;
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class PepseGameManager extends GameManager {
 
@@ -102,6 +100,7 @@ public class PepseGameManager extends GameManager {
 
         // creating TreeCreator
         this.tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER, seed);
+        this.tree.createInRange(200, 1000);
 //        this.tree.createInRange(0,WINDOW_WIDTH);
     }
 
@@ -110,6 +109,7 @@ public class PepseGameManager extends GameManager {
         super.update(deltaTime);
         // adapting trees and terrain
         this.expand();
+        //TODO: add expansion and initiation to tree
         this.setLayersCollisions();
     }
 
@@ -156,8 +156,8 @@ public class PepseGameManager extends GameManager {
 
         // setting avatars location:
         int x = WINDOW_WIDTH / 2;
-        if (this.tree.treeAtX(x)) {x += 30;}  // makes sure the avatar won't start on a tree
-        float y = this.terrain.groundHeightAt(x) - Avatar.AVATAR_DIMENSIONS.y(); // TODO -> Is it okay making a static variable public?
+        while (this.tree.treeAtX(x)) {x += 60;}  // makes sure the avatar won't start on a tree
+        float y = this.terrain.groundHeightAt(x) - Avatar.AVATAR_DIMENSIONS.y();   // TODO -> Is it okay making a static variable public?
         Vector2 location = new Vector2(x, y);
 
         // creating avatar:
@@ -170,17 +170,27 @@ public class PepseGameManager extends GameManager {
 
     private void expand() {
         LinkedList<GameObject[]> blockColumnList = terrain.getBlockColumList();
+        if(shouldExtendLeft(blockColumnList)) {
+            terrain.extendLeft();
+            tree.extendLeft();
+//            terrain.extend(blockColumnList::getFirst, blockColumnList::addFirst, blockColumnList::removeLast,
+//                    - terrain.getBlockSize());
+        }
+        else if(shouldExtendRight(blockColumnList)) {
+            terrain.extendRight();
+            tree.extendRight();
+//            terrain.extend(blockColumnList::getLast, blockColumnList::addLast, blockColumnList::removeFirst,
+//                    terrain.getBlockSize());
+        }
+    }
 
-        if(avatar.getCenter().x() - TERRAIN_FACTOR <= blockColumnList.getFirst()[0].getCenter().x()) {
-//            terrain.extendLeft();
-            terrain.extend(blockColumnList::getFirst, blockColumnList::addFirst, blockColumnList::removeLast,
-                    - terrain.getBlockSize());
-        }
-        else if(avatar.getCenter().x() + TERRAIN_FACTOR >= terrain.getBlockColumList().getLast()[0].getCenter().x()) {
-//            terrain.extendRight();
-            terrain.extend(blockColumnList::getLast, blockColumnList::addLast, blockColumnList::removeFirst,
-                    terrain.getBlockSize());
-        }
+    private boolean shouldExtendLeft(LinkedList<GameObject[]> blockColumnList) {
+        return avatar.getCenter().x() - TERRAIN_FACTOR <= blockColumnList.getFirst()[0].getCenter().x();
+
+    }
+
+    private boolean shouldExtendRight(LinkedList<GameObject[]> blockColumnList) {
+        return avatar.getCenter().x() + TERRAIN_FACTOR >= blockColumnList.getLast()[0].getCenter().x();
     }
 
     public static void main(String[] args) {

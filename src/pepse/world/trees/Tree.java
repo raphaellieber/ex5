@@ -8,8 +8,7 @@ import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 
 public class Tree {
@@ -20,22 +19,34 @@ public class Tree {
     private static final int TRUNK_BLOCK_SIZE = 30;
     private static final int LEAF_BLOCK_SIZE = 30;
 
-    private static final int TREE_CHANCE = 30;
+    private static final int TREE_CHANCE = 10;
     private static final int MAX_TREE_HEIGHT = 12;
     private static final int MIN_TREE_HEIGHT = 7;
 
-//    private static final int DEFAULT_VALUE = -999;
+    private static final int MAX_TREE_TOP_DIAM_BLOCKS = 5;
+    private static final int MIN_TREE_TOP_DIAM_BLOCKS = 3;
+
+    private static final int DEFAULT_VALUE = 600;
+    private static final String TREE_TRUNK = "tree_trunk";
+    private static final String TREE_TOP = "tree_top";
+    private static final int TREE_CONDITION = 1;
+
 
     private final Function<Integer, Float> groundHeightAtFunc;
     private final GameObjectCollection gameObjects;
     private final int treeLayer;
     private final int leafLayer;
-//    private final int groundLayer;
     private final Random random;
-
-    public final ArrayList<Integer> treeXLocations;
     private int minXOnTerrain;
     private int maxXOnTerrain;
+
+    //    private final ArrayList<Integer> treeXLocations;
+    private final TreeMap<Integer, ArrayList<GameObject>> treeTreeMap;
+
+    private int seed;
+//    private final int creationFactor;
+
+
 
     /**
      * Constructor
@@ -53,113 +64,50 @@ public class Tree {
         this.gameObjects = gameObjects;
         this.treeLayer = treeLayer;
         this.leafLayer = leafLayer;
-//        this.groundLayer = groundLayer;
+        this.seed = seed;
+//        this.creationFactor = creationFactor;
 
-        this.minXOnTerrain = 0 ; // default value
-        this.maxXOnTerrain = 0; // default value
+        this.minXOnTerrain = DEFAULT_VALUE; // default value
+        this.maxXOnTerrain = DEFAULT_VALUE; // default value
 
         this.random = new Random(seed);
 
-        this.treeXLocations = new ArrayList<>();
+        this.treeTreeMap = new TreeMap<Integer, ArrayList<GameObject>>();
     }
+
 
     /**
      * A method that creates trees between minX and maxX
      * @param minX represents the lower bound
      * @param maxX represents the top bound
      */
-    public void createInRange(int minX, int maxX) {
-//            minX.......|(this.min)...................(this.max)|......maxX
-        if (minX <= this.minXOnTerrain && maxX >= this.maxXOnTerrain) {
-            createInRangeHelper(minX, this.minXOnTerrain);
-            createInRangeHelper(this.maxXOnTerrain, maxX);
-            this.minXOnTerrain = minX;
-            this.maxXOnTerrain = maxX;
-        }
 
-        //   |(this.min)......minX...................(this.max)|......maxX
-        else if (minX > this.minXOnTerrain && minX < this.maxXOnTerrain && maxX > this.maxXOnTerrain) {
-            createInRangeHelper(this.maxXOnTerrain, maxX);
-            this.maxXOnTerrain = maxX;
-        }
-
-        //   minX.......|(this.min)...................maxX......(this.max)|
-        else if (maxX < this.maxXOnTerrain && maxX > this.minXOnTerrain && minX < this.minXOnTerrain) {
-            createInRangeHelper(minX,this.minXOnTerrain);
-            this.minXOnTerrain = minX;
-        }
-    }
-
-
-    /**
-     * A helper method that creates trees between minX and maxX
-     * @param minX represents the lower bound
-     * @param maxX represents the top bound
-     */
-    private void createInRangeHelper(int minX, int maxX){
-
-        // calculating the location of normalized minX and maxX:
-        int LastBlockLocation = (int) (Math.ceil(maxX / TRUNK_BLOCK_SIZE) * TRUNK_BLOCK_SIZE);
-        int firstBlockLocation = (minX / TRUNK_BLOCK_SIZE) * TRUNK_BLOCK_SIZE;
-        if (minX < 0) { firstBlockLocation -= TRUNK_BLOCK_SIZE; }
-
-        // Creating trees:
-        for (int i = firstBlockLocation; i < LastBlockLocation; i += TRUNK_BLOCK_SIZE) { createTree(i); }
-
-    }
-
-    /**
-     * A helper method that creates one tree with a change: 1/TREE_CHANCE at a given x
-     * @param x represents the given x
-     */
-    private void createTree(int x) {
-
-        // Tossing tilted coin with 1/TREE_CHANCE chance of creating a tree:
-        Random rand = new Random();
-        int tiltedCoinToss = rand.nextInt(TREE_CHANCE);
-
-//        if (tiltedCoinToss == 0 && this.xOfLastTree != x-TRUNK_BLOCK_SIZE) {
-
-        if (tiltedCoinToss == 0 && !this.treeXLocations.contains(x+30)
-                                && !this.treeXLocations.contains(x-30)
-                                && !this.treeXLocations.contains(x)) {
-            // Calculating the location of left top corner of first block
-            float groundHeightAtX = (groundHeightAtFunc.apply(x));
-
-            // creating the tree
-            int trunkHeight = createTrunk(x, groundHeightAtX);
-            createTreeTop(x, trunkHeight);
-
-            this.treeXLocations.add(x); // adding x into the tree locations collection
-        }
-    }
 
     /**
      * A method that creates the trunk of the tree with bottom left corner given at (leftX, leftY)
-     * @param LeftX represents the X of the bottom left corner
-     * @param LeftY represents the Y of the bottom left corner
+     * @param leftX represents the X of the bottom left corner
+     * @param leftY represents the Y of the bottom left corner
      * @return returns the height of the tree
      */
-    private int createTrunk(int LeftX, float LeftY) {
-        int treeHeight = MIN_TREE_HEIGHT + this.random.nextInt(MAX_TREE_HEIGHT - MIN_TREE_HEIGHT);
 
-        for (int i = 0; i < treeHeight; i++) {
-            // creating render-ability for all the blocks of the trunk:
+    private void createTrunk(int positionX, float groundHeight, ArrayList<GameObject> treeObject,
+                             Random random) {
+        int trunkHeightBlocks = MIN_TREE_HEIGHT + random.nextInt(MAX_TREE_HEIGHT - MIN_TREE_HEIGHT);
+        float trunkBlockCenterY = groundHeight - TRUNK_BLOCK_SIZE;
+        for (int i = 0; i < trunkHeightBlocks; i++) {
             RectangleRenderable rectangleRenderable = new
                     RectangleRenderable(ColorSupplier.approximateColor(TRUNK_COLOR));
-
-            // creating a trunk block, tagging it and adding into gameObjects:
-            LeftY -= TRUNK_BLOCK_SIZE;
-            Vector2 leftTopCorner = new Vector2(LeftX, LeftY);
-            GameObject trunkBlock = new GameObject(leftTopCorner, Vector2.ONES.mult(TRUNK_BLOCK_SIZE),
+            GameObject trunkBlock = new GameObject(Vector2.ZERO, Vector2.ONES.mult(TRUNK_BLOCK_SIZE),
                     rectangleRenderable);
+            trunkBlock.setCenter(new Vector2(positionX, trunkBlockCenterY));
+            System.out.println("center");
             trunkBlock.physics().preventIntersectionsFromDirection(Vector2.ZERO);
             trunkBlock.physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
-            trunkBlock.setTag("tree_trunk");
+            trunkBlock.setTag(TREE_TRUNK);
             this.gameObjects.addGameObject(trunkBlock, this.treeLayer);
+            treeObject.add(trunkBlock);
+            trunkBlockCenterY -= TRUNK_BLOCK_SIZE;
         }
-        // returning the y top left corner of the trunk
-        return (int)LeftY;
     }
 
     /**
@@ -168,36 +116,122 @@ public class Tree {
      * @param treeX represents the X where the tree at
      * @param trunkHeight represents the height of the tree
      */
-    private void createTreeTop(int treeX, int trunkHeight) {
 
-        // determining tree top diameter:
-        int treeTopDiam;
+    private void createTreeTop(int positionX, int groundHeightAtX, ArrayList<GameObject> treeObjects, Random random) {
+        int trunkHeight = (int) groundHeightAtX - treeObjects.size() * TRUNK_BLOCK_SIZE;
+        int treeTopDiameterBlocks = random.nextBoolean() ? MIN_TREE_TOP_DIAM_BLOCKS : MAX_TREE_TOP_DIAM_BLOCKS;
+        int treeTopMaxHeight = trunkHeight +((treeTopDiameterBlocks / 2) * LEAF_BLOCK_SIZE);
+        int treeTopMinHeight = trunkHeight - ((treeTopDiameterBlocks / 2) * LEAF_BLOCK_SIZE);
+        int leftEdgeX = positionX - (treeTopDiameterBlocks / 2) * LEAF_BLOCK_SIZE;
+        int rightEdge = leftEdgeX + treeTopDiameterBlocks * LEAF_BLOCK_SIZE;
 
-        if (this.random.nextInt(2) == 1){ treeTopDiam = 5; }
-        else {treeTopDiam = 3;}
-
-        // creating tree top from the bottom to the top:
-        int maxTopTreeHeight = ((treeTopDiam/2) * LEAF_BLOCK_SIZE) + trunkHeight;
-        int startX = treeX - (treeTopDiam/2) * LEAF_BLOCK_SIZE;
-        int endX = startX + treeTopDiam * LEAF_BLOCK_SIZE;
-
-        for (int x = startX; x < endX; x += LEAF_BLOCK_SIZE) {
-            for (int y = 0; y < treeTopDiam  ; y++) {
-
-                // creating render-ability for all leaf blocks:
+        for (int x = leftEdgeX; x < rightEdge; x += LEAF_BLOCK_SIZE) {
+            for (int y = treeTopMinHeight; y < treeTopMaxHeight ; y += LEAF_BLOCK_SIZE) {
                 RectangleRenderable rectangleRenderable = new
                         RectangleRenderable(ColorSupplier.approximateColor(LEAF_COLOR));
-
-                // creating a leaf block, tagging it and adding into gameObjects:
-                int curHeight = maxTopTreeHeight - (y * LEAF_BLOCK_SIZE);
-                Vector2 leftTopCorner = new Vector2(x, curHeight);
-                Leaf leaf = new Leaf(leftTopCorner, Vector2.ONES.mult(LEAF_BLOCK_SIZE), rectangleRenderable);
-
-                leaf.setTag("tree_top");
+                Vector2 leafCenter = new Vector2(x, y);
+                Leaf leaf = new Leaf(Vector2.ZERO, Vector2.ONES.mult(LEAF_BLOCK_SIZE), rectangleRenderable);
+                leaf.setCenter(leafCenter);
+                leaf.setTag(TREE_TOP);
                 this.gameObjects.addGameObject(leaf, this.leafLayer);
+                treeObjects.add(leaf);
             }
+
         }
     }
+
+    /**
+     * A helper method that creates trees between minX and maxX
+     * @param minX represents the lower bound
+     * @param maxX represents the top bound
+     */
+
+
+
+
+    private boolean treeCondition(Map.Entry<Integer, ArrayList<GameObject>> extremityEntry, int newPositionX,
+                                  Random random) {
+        if(extremityEntry == null || extremityEntry.getValue().size() == 0) {
+            //TODO: try to use the same random for all tree elements.
+            int tiltedCoinToss = random.nextInt(TREE_CHANCE);
+            if (tiltedCoinToss == TREE_CONDITION)
+                return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * A helper method that creates one tree with a change: 1/TREE_CHANCE at a given x
+     * @param x represents the given x
+     */
+
+    private void createTree(int positionX, ArrayList<GameObject> treeObjects, Random random) {
+        float groundHeightAtX = (groundHeightAtFunc.apply(positionX));
+        createTrunk(positionX, groundHeightAtX, treeObjects, random);
+        int trunkHeight = (int) groundHeightAtX - treeObjects.size() * TRUNK_BLOCK_SIZE;
+//        createTreeTop(positionX, trunkHeight, treeObjects);
+
+        createTreeTop(positionX, (int) groundHeightAtX, treeObjects, random);
+    }
+
+    public void createInRange(int minX, int maxX) {
+        for (int i = minX; i < maxX; i += TRUNK_BLOCK_SIZE) {
+            Map.Entry<Integer, ArrayList<GameObject>> lastEntry = treeTreeMap.lastEntry();
+            ArrayList<GameObject> treeObjects = new ArrayList<>();
+            Random random = new Random(Objects.hash(i, this.seed));
+            if(treeCondition(lastEntry, i, random))
+                createTree(i, treeObjects, random);
+            treeTreeMap.put(i, treeObjects);
+        }
+    }
+
+    public void extendRight() {
+        Map.Entry<Integer, ArrayList<GameObject>> lastEntry = treeTreeMap.lastEntry();
+        int nextPositionX = lastEntry.getKey() + TRUNK_BLOCK_SIZE;
+        ArrayList<GameObject> treeObjects = new ArrayList<>();
+        Random random = new Random(Objects.hash(nextPositionX, this.seed));
+        if(treeCondition(lastEntry, nextPositionX, random))
+            createTree(nextPositionX, treeObjects, random);
+        treeTreeMap.put(nextPositionX, treeObjects);
+        removeTreeObjects(treeTreeMap.pollFirstEntry().getValue());
+    }
+
+    public void extendLeft() {
+        Map.Entry<Integer, ArrayList<GameObject>> firstEntry = treeTreeMap.firstEntry();
+        int nextPositionX = firstEntry.getKey() - TRUNK_BLOCK_SIZE;
+        ArrayList<GameObject> treeObjects = new ArrayList<>();
+        Random random = new Random(Objects.hash(nextPositionX, this.seed));
+        if(treeCondition(firstEntry, nextPositionX, random))
+            createTree(nextPositionX, treeObjects, random);
+        treeTreeMap.put(nextPositionX, treeObjects);
+        removeTreeObjects(treeTreeMap.pollLastEntry().getValue());
+
+    }
+
+    /**
+     * a helper method that clears the trees that are out of the range
+     * @param minX
+     * @param maxX
+     */
+
+
+
+    private void removeTreeObjects(ArrayList<GameObject> treeObjects) {
+        if(treeObjects != null)
+            for(GameObject treeObject : treeObjects) {
+                int objectLayer;
+                if(treeObject.getClass() == Leaf.class)
+                    objectLayer = leafLayer;
+                else objectLayer = treeLayer;
+                this.gameObjects.removeGameObject(treeObject, objectLayer);
+            }
+    }
+
+
+
+
+
 
     /**
      * A method that returns True if there is a tree at a given x and false otherwise
@@ -205,7 +239,7 @@ public class Tree {
      * @return True if there is a tree at x, false otherwise
      */
     public boolean treeAtX(int x){
-        return this.treeXLocations.contains(x);
+        return this.treeTreeMap.containsKey(x);
     }
 
     /**
@@ -213,7 +247,7 @@ public class Tree {
      * @return true if there is, false otherwise
      */
     public boolean hasTrees() {
-        return !this.treeXLocations.isEmpty();
+        return !this.treeTreeMap.isEmpty();
     }
 
 }
