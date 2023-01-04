@@ -173,14 +173,10 @@ public class PepseGameManager extends GameManager {
         if(shouldExtendLeft(blockColumnList)) {
             terrain.extendLeft();
             tree.extendLeft();
-//            terrain.extend(blockColumnList::getFirst, blockColumnList::addFirst, blockColumnList::removeLast,
-//                    - terrain.getBlockSize());
         }
         else if(shouldExtendRight(blockColumnList)) {
             terrain.extendRight();
             tree.extendRight();
-//            terrain.extend(blockColumnList::getLast, blockColumnList::addLast, blockColumnList::removeFirst,
-//                    terrain.getBlockSize());
         }
     }
 
