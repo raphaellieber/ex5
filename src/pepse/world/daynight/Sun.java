@@ -26,6 +26,7 @@ public class Sun {
         GameObject sun = new GameObject(Vector2.ZERO, SUN_DIMENSIONS, sunImage);
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         sun.setTag(SUN_TAG);
+
         /**
          * The Transition Object takes care of the sun position based on its angle.
          * When referring to angles, the window is considered a polar coordinate system.

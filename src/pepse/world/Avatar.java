@@ -16,17 +16,14 @@ public class Avatar extends GameObject implements energized{
     private static final float JUMP_VELOCITY_Y = -300;
     private static final float FALL_ACCELERATION_Y = 500;
     private static final float HORIZONTAL_VELOCITY_X = 300;
-//    private static final float MIN_ENERGY = 0;
     private static final float MAX_ENERGY = 100;
     private static final float ENERGY_CHANGE = 0.5f;
 
-    private static final String[] MOVEMENT_PATH = new String[] {"assets/leftFoot.png", "assets/rightFoot.png"};
+    private static final String[] MOVEMENT_PATH = new String[] {"assets/leftFoot.png","assets/rightFoot.png"};
     private static final float TIME_BETWEEN_CLIPS = 0.1f;
 
     private float energy = MAX_ENERGY;
-//    private boolean flying = false;
     private final UserInputListener inputListener;
-//    private GameObjectCollection gameObjects;
     private final Renderable standStillImg;
 
     AnimationRenderable movementAnimation;
@@ -43,7 +40,7 @@ public class Avatar extends GameObject implements energized{
         super(topLeftCorner, dimensions, null);
 
         this.inputListener = inputListener;
-        this.standStillImg = imageReader.readImage("assets/standstill.jpg", true);
+        this.standStillImg = imageReader.readImage("assets/standstill.png", true);
         this.movementAnimation = new AnimationRenderable(MOVEMENT_PATH,imageReader,true,TIME_BETWEEN_CLIPS);
 
         this.renderer().setRenderable(this.standStillImg);
@@ -67,19 +64,13 @@ public class Avatar extends GameObject implements energized{
         cancelHorizontalVelocity();
         this.renderer().setRenderable(this.standStillImg);
 
-        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
-//            System.out.println(this.getCenter().x());  // TODO
+        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) { moveRight(); }
 
-            moveRight();
-        }
-        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
-            moveLeft();
-//            System.out.println(this.getCenter().x());   // TODO
-        }
-            if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {
-            if (inputListener.isKeyPressed(KeyEvent.VK_SHIFT) && energy > 0)
-                fly();
-            else jump();
+        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)) { moveLeft(); }
+
+        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {
+            if (inputListener.isKeyPressed(KeyEvent.VK_SHIFT) && energy > 0) { fly(); }
+            else { jump(); }
         }
     }
 

@@ -14,8 +14,8 @@ public class Leaf extends GameObject {
     private static final int MAX_LIFE_TIME = 120;
     private static final int MIN_LIFE_TIME = 20;
 
-    private static final int MAX_MOVE_WAIT_TIME = 10;
-    private static final int MIN_MOVE_WAIT_TIME = 2;
+    private static final int MAX_MOVE_TIME = 10;
+    private static final int MIN_MOVE_TIME = 2;
 
     private static final float MAX_ANGLE = 10;
     private static final float ANGLE_TIME = 2F;
@@ -33,15 +33,13 @@ public class Leaf extends GameObject {
 
     private static final float MAX_HORIZONTAL_SPEED = 45;
     private static final float MIN_HORIZONTAL_SPEED = -45;
-    private static final float MAX_VERTICAL_SPEED = 30;
-    private static final float MIN_VERTICAL_SPEED = -5;
+
 
 
     private final Vector2 dimensions;
     private final Vector2 topLeftCorner;
     private final Random rand;
     private Transition<Float> horizontalTransition;
-    private Transition<Float> verticalTransition;
     private Transition<Float> angelTransition;
     private Transition<Vector2> dimensionTransition;
 
@@ -83,7 +81,7 @@ public class Leaf extends GameObject {
     private void startLeafLifeCycle(){
 
         // Creating for each leaf random lifeTime and random waitTime until the transitions will start
-        float movementWaitTime = MIN_MOVE_WAIT_TIME + this.rand.nextInt(MAX_MOVE_WAIT_TIME - MIN_MOVE_WAIT_TIME);
+        float movementWaitTime = MIN_MOVE_TIME + this.rand.nextInt(MAX_MOVE_TIME - MIN_MOVE_TIME);
         float lifeTime = MIN_LIFE_TIME + this.rand.nextInt(MAX_LIFE_TIME - MIN_LIFE_TIME);
 
         // Initializing the Scheduled Transition Task for the movement Strategy
@@ -136,7 +134,7 @@ public class Leaf extends GameObject {
      */
     private void leafDeath() {
         // getting a random leaf death time, on time up the leaf will rebirth
-        int deathTime = MIN_DEATH_TIME + this.rand.nextInt(MAX_DEATH_TIME - MIN_DEATH_TIME);
+        int deathTime = MIN_DEATH_TIME + this.rand.nextInt(MAX_DEATH_TIME - MIN_DEATH_TIME) ;
         new ScheduledTask(this, deathTime, false, this::leafRecreation);
     }
 
