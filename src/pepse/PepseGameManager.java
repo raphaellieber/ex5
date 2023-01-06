@@ -2,7 +2,6 @@ package pepse;
 
 import danogl.GameManager;
 import danogl.GameObject;
-import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
@@ -21,7 +20,6 @@ import pepse.world.daynight.SunHalo;
 import pepse.world.trees.Tree;
 
 import java.awt.*;
-import java.util.LinkedList;
 import java.util.Random;
 
 public class PepseGameManager extends GameManager {
@@ -31,18 +29,21 @@ public class PepseGameManager extends GameManager {
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 700;
 
-    private static final int SKY_LAYER = Layer.BACKGROUND;
-    private static final int SUN_LAYER = SKY_LAYER + 1;
-    private static final int SUN_HALO_LAYER = SUN_LAYER + 1;
-    private static final int TERRAIN_LAYER = Layer.STATIC_OBJECTS;
-    private static final int TREE_LAYER = TERRAIN_LAYER + 1;
-    private static final int LEAF_LAYER = TREE_LAYER + 1;
-    private static final int AVATAR_LAYER = Layer.DEFAULT;
-    private static final int NIGHT_LAYER = Layer.FOREGROUND;
-    private static final int UI_LAYER = Layer.UI;
+    private static final int SKY_LAYER = -200;
+    private static final int SUN_LAYER = -199;
+    private static final int SUN_HALO_LAYER = -198;
+    private static final int UPPER_TERRAIN_LAYER = -151;
+    private static final int LOWER_TERRAIN_LAYER = -150;
+    private static final int TREE_LAYER = -149;
+    private static final int LEAF_LAYER = -148;
+    private static final int AVATAR_LAYER = 0;
+    private static final int NIGHT_LAYER = 100;
+    private static final int UI_LAYER = 200;
 
     private static final int TEXT_SIZE = 25;
-    private static final int TERRAIN_FACTOR = 300;
+    private static final int CREATION_FACTOR = 700;
+    private static final int DEFAULT_START = -200 ;
+    private static final int DEFAULT_END = WINDOW_WIDTH + 100;
 
     private static final float DAY_CYCLE_LENGTH = 120;
     private static final Color SUN_HALO_COLOR = new Color(255, 255, 0, 20);
@@ -52,11 +53,30 @@ public class PepseGameManager extends GameManager {
     private Tree tree;
     private Terrain terrain;
 
+    /**
+     * A constructor for the PEPSE game, which calls its super (GameManager)'s constructor
+     * @param windowTitle      the title of the window
+     * @param windowDimensions a 2d vector representing the height and width of the window
+     */
     public PepseGameManager(String windowTitle, Vector2 windowDimensions) {
         super(windowTitle, windowDimensions);
         this.windowDimensions = windowDimensions;
     }
 
+    /**
+     * This method initializes a new game. It creates all game objects, sets their values and initial
+     * positions and allow the start of a game.
+     *
+     * @param imageReader Contains a single method: readImage, which reads an image from disk.
+     *                 See its documentation for help.
+     * @param soundReader Contains a single method: readSound, which reads a wav file from
+     *                    disk. See its documentation for help.
+     * @param inputListener Contains a single method: isKeyPressed, which returns whether
+     *                      a given key is currently pressed by the user or not. See its
+     *                      documentation.
+     * @param windowController Contains an array of helpful, self-explanatory methods
+     *                         concerning the window.
+     */
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader,
                                UserInputListener inputListener, WindowController windowController) {
@@ -76,6 +96,11 @@ public class PepseGameManager extends GameManager {
         this.setLayersCollisions();
     }
 
+    /**
+     * A helper method that created the world environment: sky, sun, sun halo, terrain and trees
+     * @param windowController Contains an array of helpful, self-explanatory methods
+     *      *                  concerning the window.
+     */
     public void createWorldEnvironment(WindowController windowController) {
         // creating the sky
         GameObject sky = Sky.create(this.gameObjects(), windowController.getWindowDimensions(), SKY_LAYER);
@@ -84,7 +109,7 @@ public class PepseGameManager extends GameManager {
         GameObject night = Night.create(this.gameObjects(), NIGHT_LAYER,
                 windowController.getWindowDimensions(), DAY_CYCLE_LENGTH / 2);
 
-        // creating sun
+        // creating sun and sun halo
         this.createSun(windowController);
 
         // creating random seed
@@ -94,30 +119,26 @@ public class PepseGameManager extends GameManager {
 
 
         // creating terrain
-        this.terrain = new Terrain(this.gameObjects(), TERRAIN_LAYER,
+        this.terrain = new Terrain(this.gameObjects(), UPPER_TERRAIN_LAYER, LOWER_TERRAIN_LAYER,
                 windowController.getWindowDimensions(), seed);
-        this.terrain.creatInRange(200, 1000);
+
+        // The range should be bigger than WINDOW_WIDTH/2 + creation factor
+        this.terrain.createInRange(DEFAULT_START, DEFAULT_END);
+
 
         // creating TreeCreator
         this.tree = new Tree(terrain::groundHeightAt, gameObjects(), TREE_LAYER, LEAF_LAYER, seed);
-        this.tree.createInRange(200, 1000);
-//        this.tree.createInRange(0,WINDOW_WIDTH);
+        this.tree.createInRange(DEFAULT_START, DEFAULT_END);
     }
 
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-        // adapting trees and terrain
-        this.expand();
-        //TODO: add expansion and initiation to tree
-        this.setLayersCollisions();
-    }
-
+    /**
+     * A method that sets collisions between layers
+     */
     private void setLayersCollisions() {
-        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TERRAIN_LAYER, true);
+        this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, UPPER_TERRAIN_LAYER, true);
         if (this.tree.hasTrees()) {
             this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, TREE_LAYER, true);
-            this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, TERRAIN_LAYER, true);
+            this.gameObjects().layers().shouldLayersCollide(LEAF_LAYER, UPPER_TERRAIN_LAYER, true);
         }
     }
 
@@ -157,7 +178,7 @@ public class PepseGameManager extends GameManager {
         // setting avatars location:
         int x = WINDOW_WIDTH / 2;
         while (this.tree.treeAtX(x)) {x += 60;}  // makes sure the avatar won't start on a tree
-        float y = this.terrain.groundHeightAt(x) - Avatar.AVATAR_DIMENSIONS.y();   // TODO -> Is it okay making a static variable public?
+        float y = this.terrain.groundHeightAt(x) - Avatar.AVATAR_DIMENSIONS.y();
         Vector2 location = new Vector2(x, y);
 
         // creating avatar:
@@ -168,25 +189,29 @@ public class PepseGameManager extends GameManager {
                 windowDimensions));
     }
 
-    private void expand() {
-        LinkedList<GameObject[]> blockColumnList = terrain.getBlockColumList();
-        if(shouldExtendLeft(blockColumnList)) {
-            terrain.extendLeft();
-            tree.extendLeft();
-        }
-        else if(shouldExtendRight(blockColumnList)) {
-            terrain.extendRight();
-            tree.extendRight();
-        }
-    }
+    /**
+     * An override for the super's method update.
+     * the method creates terrain and trees in the range:
+     * [Avatars.center - CREATION_FACTOR, Avatars.center + CREATION_FACTOR]
+     * @param deltaTime The time, in seconds, that passed since the last invocation
+     *                  of this method (i.e., since the last frame). This is useful
+     *                  for either accumulating the total time that passed since some
+     *                  event, or for physics integration (i.e., multiply this by
+     *                  the acceleration to get an estimate of the added velocity or
+     *                  by the velocity to get an estimate of the difference in position).
+     */
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
 
-    private boolean shouldExtendLeft(LinkedList<GameObject[]> blockColumnList) {
-        return avatar.getCenter().x() - TERRAIN_FACTOR <= blockColumnList.getFirst()[0].getCenter().x();
+        // creating trees and terrain
+        int minX = (int)this.avatar.getCenter().x() - CREATION_FACTOR;
+        int maxX = (int)this.avatar.getCenter().x() + CREATION_FACTOR;
 
-    }
+        this.terrain.createInRange(minX, maxX);
+        this.tree.createInRange(minX, maxX);
 
-    private boolean shouldExtendRight(LinkedList<GameObject[]> blockColumnList) {
-        return avatar.getCenter().x() + TERRAIN_FACTOR >= blockColumnList.getLast()[0].getCenter().x();
+        this.setLayersCollisions();
     }
 
     public static void main(String[] args) {
