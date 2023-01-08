@@ -7,13 +7,13 @@ import danogl.components.GameObjectPhysics;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
-import pepse.world.Creator;
+import pepse.world.abstract_classes.ExtendableElement;
 
 import java.awt.*;
 import java.util.*;
 import java.util.function.Function;
 
-public class Tree extends Creator {
+public class Tree extends ExtendableElement {
 
     private static final Color TRUNK_COLOR = new Color(100, 50, 20);
     private static final Color LEAF_COLOR = new Color(50, 200, 30);
@@ -69,42 +69,6 @@ public class Tree extends Creator {
 
         this.treeMap = new HashMap<>();
     }
-
-
-//    public void createInRange(int minX, int maxX) {
-//        // normalizing minX and maxX to a size that fits the block size
-//        int normalizedMaxX = (maxX / TRUNK_BLOCK_SIZE) * TRUNK_BLOCK_SIZE + TRUNK_BLOCK_SIZE;
-//        int normalizedMinX = (minX / TRUNK_BLOCK_SIZE) * TRUNK_BLOCK_SIZE - TRUNK_BLOCK_SIZE;
-//
-//        // creating for the first time:
-//        if (this.minXOnTerrain == 0 & this.maxXOnTerrain == 0) {
-//            createInRangeHelper(normalizedMinX, normalizedMaxX);
-//            this.minXOnTerrain = normalizedMinX;
-//            this.maxXOnTerrain = normalizedMaxX;
-//        }
-//
-//        // extending to the right:
-//        else if (normalizedMaxX > this.maxXOnTerrain) {
-//            createInRangeHelper(this.maxXOnTerrain, normalizedMaxX);
-//            int deltaMax = Math.abs(Math.abs(normalizedMaxX) - Math.abs(this.maxXOnTerrain));
-//            this.minXOnTerrain = this.minXOnTerrain + deltaMax;
-//            this.maxXOnTerrain = normalizedMaxX;
-//        }
-//
-//        // extending to the left:
-//        else if (normalizedMinX < this.minXOnTerrain) {
-////            normalizedMinX -= TRUNK_BLOCK_SIZE;
-//            createInRangeHelper(normalizedMinX, this.minXOnTerrain);
-//            int deltaMin = Math.abs(Math.abs(normalizedMinX) - Math.abs(this.minXOnTerrain));
-//            this.maxXOnTerrain = this.maxXOnTerrain - deltaMin;
-//            this.minXOnTerrain = normalizedMinX;
-//
-//        }
-//
-//        // Clearing trees if needed:
-//        if (!(this.minXOnTerrain == 0 & this.maxXOnTerrain == 0))
-//            clearTrees();
-//    }
 
     /**
      * A method that creates trees between minX and maxX
@@ -263,7 +227,7 @@ public class Tree extends Creator {
      * @param x represents the given x
      * @return True if there is a tree at x, false otherwise
      */
-    public boolean treeAtX(int x){
+    public boolean hasTreeAtX(int x){
         return this.treeMap.containsKey(x);
     }
 

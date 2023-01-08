@@ -3,6 +3,7 @@ package pepse.world;
 import danogl.GameObject;
 import danogl.gui.rendering.TextRenderable;
 import danogl.util.Vector2;
+import pepse.world.interfaces.Energized;
 
 import java.awt.*;
 
@@ -11,7 +12,7 @@ public class EnergyDisplay extends GameObject {
     private static final String STRING_TO_DISPLAY = "Energy: ";
 
     private final TextRenderable textRenderable;
-    private final energized obj;
+    private final Energized obj;
 
     /**
      * Constructor
@@ -20,7 +21,7 @@ public class EnergyDisplay extends GameObject {
      * @param dimensions    Width and height in window coordinates.
      * @param obj        represents the energized object
      */
-    public EnergyDisplay(Vector2 topLeftCorner, Vector2 dimensions, energized obj) {
+    public EnergyDisplay(Vector2 topLeftCorner, Vector2 dimensions, Energized obj) {
         super(topLeftCorner, dimensions, null);
 
         this.obj = obj;

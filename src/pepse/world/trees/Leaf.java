@@ -22,7 +22,7 @@ public class Leaf extends GameObject {
 
     private static final float DIM_VALUE_1 = 1.1F;
     private static final float DIM_VALUE_2 = 0.9F;
-    private static final int DIMENTION_CHANGE_TIME = 5;
+    private static final int DIMENSION_CHANGE_TIME = 5;
 
     private static final int FADEOUT_TIME = 10;
     private static final int FALLING_SPEED = 30;
@@ -33,8 +33,6 @@ public class Leaf extends GameObject {
 
     private static final float MAX_HORIZONTAL_SPEED = 45;
     private static final float MIN_HORIZONTAL_SPEED = -45;
-
-
 
     private final Vector2 dimensions;
     private final Vector2 topLeftCorner;
@@ -105,7 +103,7 @@ public class Leaf extends GameObject {
         Vector2 finalState = new Vector2(startState.x() * DIM_VALUE_1, startState.y() * DIM_VALUE_2);
 
         this.dimensionTransition = new Transition<>(this, this::setDimensions, startState, finalState,
-                Transition.CUBIC_INTERPOLATOR_VECTOR, DIMENTION_CHANGE_TIME,
+                Transition.CUBIC_INTERPOLATOR_VECTOR, DIMENSION_CHANGE_TIME,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 

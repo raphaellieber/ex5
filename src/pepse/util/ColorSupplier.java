@@ -13,7 +13,6 @@ public final class ColorSupplier {
 
     /**
      * Returns a color similar to baseColor, with a default delta.
-     *
      * @param baseColor A color that we wish to approximate.
      * @return A color similar to baseColor.
      */
@@ -36,6 +35,8 @@ public final class ColorSupplier {
                 randomChannelInRange(baseColor.getBlue()-colorDelta, baseColor.getBlue()+colorDelta));
     }
 
+    public static void setSeed(long seed){ random.setSeed(seed);}
+
     /**
      * This method generates a random value for a color channel within the given range [min, max].
      *
@@ -48,6 +49,4 @@ public final class ColorSupplier {
         return Math.min(255, Math.max(channel, 0));
     }
 
-
-    public static void setSeed(long seed){ random.setSeed(seed);}
 }

@@ -1,4 +1,4 @@
-package pepse.world;
+package pepse.world.abstract_classes;
 
 /**
  * An abstract class that writes the create in range method which computes the real range that need to be
@@ -6,18 +6,17 @@ package pepse.world;
  * The class keeps track on which range something was created, it saves this range in the class arguments:
  * minXCreated and maxXCreated
  */
-public abstract class Creator {
+public abstract class ExtendableElement {
     private int blockSize;
     private int minXCreated;
     private int maxXCreated;
     private int minXToUpdate;
     private int maxXToUpdate;
 
-
     /**
      * constructor
      */
-    public Creator(){
+    public ExtendableElement(){
         minXCreated = 0;
         maxXCreated = 0;
         blockSize = 0; // default value
@@ -25,7 +24,7 @@ public abstract class Creator {
 
     /**
      * A setter for the block size
-     * @param size repersents the new block size
+     * @param size represents the new block size
      */
     public void setBlockSize(int size) {blockSize = size;}
 
@@ -55,7 +54,7 @@ public abstract class Creator {
 
     /**
      * A method that computes the real range where we need to create our objects and saves it in
-     * minXToUpdate and in maxXToUpdate. the method uses the block size which is 0 if wasn't change!!!!
+     * minXToUpdate and in maxXToUpdate. The method uses the block size which is 0 if it wasn't changed.
      * @param minX represents the lower bound
      * @param maxX represents the top bound
      */

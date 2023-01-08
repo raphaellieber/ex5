@@ -1,9 +1,9 @@
-package pepse.world;
+package pepse.world.interfaces;
 
 /**
- * An interface that represents an object with energy
+ * An interface that represents an object with energy.
  */
-public interface energized {
+public interface Energized {
 
     /**
      * A getter for the energized object's energy

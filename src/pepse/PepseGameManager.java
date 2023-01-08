@@ -10,10 +10,7 @@ import danogl.gui.WindowController;
 import danogl.gui.rendering.Camera;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
-import pepse.world.Avatar;
-import pepse.world.EnergyDisplay;
-import pepse.world.Sky;
-import pepse.world.Terrain;
+import pepse.world.*;
 import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
 import pepse.world.daynight.SunHalo;
@@ -55,8 +52,8 @@ public class PepseGameManager extends GameManager {
 
     /**
      * A constructor for the PEPSE game, which calls its super (GameManager)'s constructor
-     * @param windowTitle      the title of the window
-     * @param windowDimensions a 2d vector representing the height and width of the window
+     * @param windowTitle the title of the window
+     * @param windowDimensions a 2D vector representing the height and width of the window
      */
     public PepseGameManager(String windowTitle, Vector2 windowDimensions) {
         super(windowTitle, windowDimensions);
@@ -65,16 +62,16 @@ public class PepseGameManager extends GameManager {
 
     /**
      * This method initializes a new game. It creates all game objects, sets their values and initial
-     * positions and allow the start of a game.
+     * positions, and allows the start of a game.
      *
-     * @param imageReader Contains a single method: readImage, which reads an image from disk.
-     *                 See its documentation for help.
-     * @param soundReader Contains a single method: readSound, which reads a wav file from
-     *                    disk. See its documentation for help.
-     * @param inputListener Contains a single method: isKeyPressed, which returns whether
+     * @param imageReader Contains a single method readImage, which reads an image from the disk.
+     *                      See its documentation for help.
+     * @param soundReader Contains a method readSound, which reads a wav file from
+     *                      disk. See its documentation for help.
+     * @param inputListener Contains a method isKeyPressed, which returns whether
      *                      a given key is currently pressed by the user or not. See its
      *                      documentation.
-     * @param windowController Contains an array of helpful, self-explanatory methods
+     * @param windowController Contains an array of helpful self-explanatory methods
      *                         concerning the window.
      */
     @Override
@@ -97,15 +94,15 @@ public class PepseGameManager extends GameManager {
     }
 
     /**
-     * A helper method that created the world environment: sky, sun, sun halo, terrain and trees
-     * @param windowController Contains an array of helpful, self-explanatory methods
-     *      *                  concerning the window.
+     * A helper method that creates the world environment: sky, sun, sun halo, terrain and trees
+     * @param windowController Contains an array of helpful, self-explanatory methods concerning the window.
      */
-    public void createWorldEnvironment(WindowController windowController) {
+    private void createWorldEnvironment(WindowController windowController) {
         // creating the sky
         GameObject sky = Sky.create(this.gameObjects(), windowController.getWindowDimensions(), SKY_LAYER);
 
-        // creating the night
+        // creating the night.
+        // The night takes half the time of the day cycle, hence it receives DAY_CYCLE_LENGTH / 2 as cycle length.
         GameObject night = Night.create(this.gameObjects(), NIGHT_LAYER,
                 windowController.getWindowDimensions(), DAY_CYCLE_LENGTH / 2);
 
@@ -132,7 +129,7 @@ public class PepseGameManager extends GameManager {
     }
 
     /**
-     * A method that sets collisions between layers
+     * A method that sets collisions between layers.
      */
     private void setLayersCollisions() {
         this.gameObjects().layers().shouldLayersCollide(AVATAR_LAYER, UPPER_TERRAIN_LAYER, true);
@@ -161,10 +158,6 @@ public class PepseGameManager extends GameManager {
                 windowController.getWindowDimensions(), DAY_CYCLE_LENGTH);
         GameObject sunHalo = SunHalo.create(gameObjects(), SUN_HALO_LAYER,
                 sun, SUN_HALO_COLOR);
-
-        // A lambda callback which sets the sunHalo center at the same place of the sun centering
-        // each new frame (after deltaTime).
-        sunHalo.addComponent((deltaTime -> sunHalo.setCenter(sun.getCenter())));
     }
 
     /**
@@ -177,7 +170,7 @@ public class PepseGameManager extends GameManager {
 
         // setting avatars location:
         int x = WINDOW_WIDTH / 2;
-        while (this.tree.treeAtX(x)) {x += 60;}  // makes sure the avatar won't start on a tree
+        while (this.tree.hasTreeAtX(x)) {x += 60;}  // makes sure the avatar won't start on a tree
         float y = this.terrain.groundHeightAt(x) - Avatar.AVATAR_DIMENSIONS.y();
         Vector2 location = new Vector2(x, y);
 
@@ -204,10 +197,12 @@ public class PepseGameManager extends GameManager {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        // creating trees and terrain
+        // defining the limits where terrain and tree content should be present.
+        // The CREATION_FACTOR takes a large enough margin so that the range exceeds the window dimension.
         int minX = (int)this.avatar.getCenter().x() - CREATION_FACTOR;
         int maxX = (int)this.avatar.getCenter().x() + CREATION_FACTOR;
 
+        // creating trees and terrain in the defined range where they are missing.
         this.terrain.createInRange(minX, maxX);
         this.tree.createInRange(minX, maxX);
 

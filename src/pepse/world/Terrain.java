@@ -6,16 +6,17 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 import pepse.util.NoiseGenerator;
+import pepse.world.abstract_classes.ExtendableElement;
 
 import java.awt.*;
 import java.util.LinkedList;
 
-public class Terrain extends Creator{
+public class Terrain extends ExtendableElement {
 
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final String NAME_TAG = "ground";
     private static final int TERRAIN_DEPTH = 20;
-    public static final int BLOCK_SIZE = 30;
+    private static final int BLOCK_SIZE = 30;
 
     private final GameObjectCollection gameObjects;
     private final int upperGroundLayer;
