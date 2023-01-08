@@ -1,0 +1,23 @@
+Index: src/pepse/world/Energized.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pepse/world/Energized.java b/src/pepse/world/Energized.java
+new file mode 100644
+--- /dev/null	(date 1672986479538)
++++ b/src/pepse/world/Energized.java	(date 1672986479538)
+@@ -0,0 +1,13 @@
++package pepse.world;
++
++/**
++ * An interface that represents an object with energy
++ */
++public interface Energized {
++
++    /**
++     * A getter for the energized object's energy
++     * @return object's energy
++     */
++    float getEnergy();
++}

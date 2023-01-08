@@ -1,0 +1,328 @@
+Index: src/pepse/world/EnergyDisplay.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pepse.world;\r\n\r\nimport danogl.GameObject;\r\nimport danogl.gui.rendering.TextRenderable;\r\nimport danogl.util.Vector2;\r\n\r\nimport java.awt.*;\r\n\r\npublic class EnergyDisplay extends GameObject {\r\n\r\n    private static final String STRING_TO_DISPLAY = \"Energy: \";\r\n\r\n    private final TextRenderable textRenderable;\r\n    private final energized obj;\r\n\r\n    /**\r\n     * Constructor\r\n     * @param topLeftCorner Position of the object, in window coordinates (pixels).\r\n     *      *               Note that (0,0) is the top-left corner of the window.\r\n     * @param dimensions    Width and height in window coordinates.\r\n     * @param obj        represents the energized object\r\n     */\r\n    public EnergyDisplay(Vector2 topLeftCorner, Vector2 dimensions, energized obj) {\r\n        super(topLeftCorner, dimensions, null);\r\n\r\n        this.obj = obj;\r\n        String stringValue = Float.toString(obj.getEnergy());\r\n        this.textRenderable = new TextRenderable(STRING_TO_DISPLAY + stringValue);\r\n        this.textRenderable.setColor(Color.black);\r\n        this.renderer().setRenderable(this.textRenderable);\r\n    }\r\n\r\n    /**\r\n     * An override for the original function.\r\n     * Updates the content of the string on the display\r\n     * @param deltaTime The time elapsed, in seconds, since the last frame. Can\r\n     *                  be used to determine a new position/velocity by multiplying\r\n     *                  this delta with the velocity/acceleration respectively\r\n     *                  and adding to the position/velocity:\r\n     *                  velocity += deltaTime*acceleration\r\n     *                  pos += deltaTime*velocity\r\n     */\r\n    @Override\r\n    public void update(float deltaTime) {\r\n        super.update(deltaTime);\r\n\r\n        String stringValue = Float.toString(this.obj.getEnergy());\r\n        this.textRenderable.setString(STRING_TO_DISPLAY + stringValue);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pepse/world/EnergyDisplay.java b/src/pepse/world/EnergyDisplay.java
+--- a/src/pepse/world/EnergyDisplay.java	(revision c27bb00c711478f79c9af7fedd5e6a921f424f1c)
++++ b/src/pepse/world/EnergyDisplay.java	(date 1672927625478)
+@@ -11,7 +11,7 @@
+     private static final String STRING_TO_DISPLAY = "Energy: ";
+ 
+     private final TextRenderable textRenderable;
+-    private final energized obj;
++    private final Energized obj;
+ 
+     /**
+      * Constructor
+@@ -20,7 +20,7 @@
+      * @param dimensions    Width and height in window coordinates.
+      * @param obj        represents the energized object
+      */
+-    public EnergyDisplay(Vector2 topLeftCorner, Vector2 dimensions, energized obj) {
++    public EnergyDisplay(Vector2 topLeftCorner, Vector2 dimensions, Energized obj) {
+         super(topLeftCorner, dimensions, null);
+ 
+         this.obj = obj;
+Index: src/pepse/world/energized.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pepse.world;\r\n\r\n/**\r\n * An interface that represents an object with energy\r\n */\r\npublic interface energized {\r\n\r\n    /**\r\n     * A getter for the energized object's energy\r\n     * @return object's energy\r\n     */\r\n    float getEnergy();\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pepse/world/energized.java b/src/pepse/world/Energized.java
+rename from src/pepse/world/energized.java
+rename to src/pepse/world/Energized.java
+--- a/src/pepse/world/energized.java	(revision c27bb00c711478f79c9af7fedd5e6a921f424f1c)
++++ b/src/pepse/world/Energized.java	(date 1672927625409)
+@@ -3,7 +3,7 @@
+ /**
+  * An interface that represents an object with energy
+  */
+-public interface energized {
++public interface Energized {
+ 
+     /**
+      * A getter for the energized object's energy
+Index: src/pepse/world/Avatar.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pepse.world;\r\n\r\nimport danogl.GameObject;\r\nimport danogl.collisions.Collision;\r\nimport danogl.collisions.GameObjectCollection;\r\nimport danogl.gui.ImageReader;\r\nimport danogl.gui.UserInputListener;\r\nimport danogl.gui.rendering.AnimationRenderable;\r\nimport danogl.gui.rendering.Renderable;\r\nimport danogl.util.Vector2;\r\n\r\nimport java.awt.event.KeyEvent;\r\n\r\npublic class Avatar extends GameObject implements energized{\r\n    public static final Vector2 AVATAR_DIMENSIONS = new Vector2(50, 70);\r\n    private static final float JUMP_VELOCITY_Y = -300;\r\n    private static final float FALL_ACCELERATION_Y = 500;\r\n    private static final float HORIZONTAL_VELOCITY_X = 300;\r\n//    private static final float MIN_ENERGY = 0;\r\n    private static final float MAX_ENERGY = 100;\r\n    private static final float ENERGY_CHANGE = 0.5f;\r\n\r\n    private static final String[] MOVEMENT_PATH = new String[] {\"assets/leftFoot.png\", \"assets/rightFoot.png\"};\r\n    private static final float TIME_BETWEEN_CLIPS = 0.1f;\r\n\r\n    private float energy = MAX_ENERGY;\r\n//    private boolean flying = false;\r\n    private final UserInputListener inputListener;\r\n//    private GameObjectCollection gameObjects;\r\n    private final Renderable standStillImg;\r\n\r\n    AnimationRenderable movementAnimation;\r\n\r\n    /**\r\n     * Construct a new GameObject instance.\r\n     *\r\n     * @param topLeftCorner Position of the object, in window coordinates (pixels).\r\n     *                      Note that (0,0) is the top-left corner of the window.\r\n     * @param dimensions    Width and height in window coordinates.\r\n     */\r\n    public Avatar(Vector2 topLeftCorner, Vector2 dimensions, ImageReader imageReader,\r\n                  UserInputListener inputListener) {\r\n        super(topLeftCorner, dimensions, null);\r\n\r\n        this.inputListener = inputListener;\r\n        this.standStillImg = imageReader.readImage(\"assets/standstill.jpg\", true);\r\n        this.movementAnimation = new AnimationRenderable(MOVEMENT_PATH,imageReader,true,TIME_BETWEEN_CLIPS);\r\n\r\n        this.renderer().setRenderable(this.standStillImg);\r\n        physics().preventIntersectionsFromDirection(Vector2.ZERO);\r\n    }\r\n\r\n    public static Avatar create(GameObjectCollection gameObjects, int layer, Vector2 topLeftCorner,\r\n                                UserInputListener inputListener, ImageReader imageReader) {\r\n\r\n        Avatar avatar = new Avatar(topLeftCorner, AVATAR_DIMENSIONS, imageReader, inputListener);\r\n        avatar.fall();\r\n        gameObjects.addGameObject(avatar, layer);\r\n\r\n        return avatar;\r\n    }\r\n\r\n    @Override\r\n    public void update(float deltaTime) {\r\n        super.update(deltaTime);\r\n        updateEnergy();\r\n        cancelHorizontalVelocity();\r\n        this.renderer().setRenderable(this.standStillImg);\r\n\r\n        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) {\r\n//            System.out.println(this.getCenter().x());  // TODO\r\n\r\n            moveRight();\r\n        }\r\n        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {\r\n            moveLeft();\r\n//            System.out.println(this.getCenter().x());   // TODO\r\n        }\r\n            if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {\r\n            if (inputListener.isKeyPressed(KeyEvent.VK_SHIFT) && energy > 0)\r\n                fly();\r\n            else jump();\r\n        }\r\n    }\r\n\r\n    /**\r\n     * A getter for the Avatar's energy\r\n     * @return the energy of the Avatar\r\n     */\r\n    public float getEnergy(){ return this.energy;}\r\n\r\n    private void moveRight() {\r\n        setVelocity(new Vector2(HORIZONTAL_VELOCITY_X, getVelocity().y()));\r\n        this.renderer().setRenderable(this.movementAnimation);\r\n        this.renderer().setIsFlippedHorizontally(false);\r\n    }\r\n\r\n    private void moveLeft() {\r\n        setVelocity(new Vector2(- HORIZONTAL_VELOCITY_X, getVelocity().y()));\r\n        this.renderer().setRenderable(this.movementAnimation);\r\n        this.renderer().setIsFlippedHorizontally(true);\r\n    }\r\n\r\n    private void fly() {\r\n        setVelocity(new Vector2(getVelocity().x(), JUMP_VELOCITY_Y));\r\n        this.energy -= ENERGY_CHANGE;\r\n    }\r\n\r\n    private void jump() {\r\n        if(getVelocity().y() == 0)\r\n            setVelocity(new Vector2(getVelocity().x(), JUMP_VELOCITY_Y));\r\n    }\r\n\r\n    private void fall() {\r\n        transform().setAccelerationY(FALL_ACCELERATION_Y);\r\n    }\r\n\r\n    private void updateEnergy() {\r\n        if(getVelocity().y() == 0 && energy < MAX_ENERGY)\r\n            this.energy += ENERGY_CHANGE;\r\n    }\r\n\r\n    private void cancelHorizontalVelocity() {\r\n        setVelocity(new Vector2(0, getVelocity().y()));\r\n    }\r\n\r\n    @Override\r\n    public void onCollisionEnter(GameObject other, Collision collision) {\r\n        super.onCollisionEnter(other, collision);\r\n        if(other.getClass() == Block.class)\r\n            this.setVelocity(new Vector2(0,this.getVelocity().y()));\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pepse/world/Avatar.java b/src/pepse/world/Avatar.java
+--- a/src/pepse/world/Avatar.java	(revision c27bb00c711478f79c9af7fedd5e6a921f424f1c)
++++ b/src/pepse/world/Avatar.java	(date 1672927625441)
+@@ -11,12 +11,11 @@
+ 
+ import java.awt.event.KeyEvent;
+ 
+-public class Avatar extends GameObject implements energized{
++public class Avatar extends GameObject implements Energized {
+     public static final Vector2 AVATAR_DIMENSIONS = new Vector2(50, 70);
+     private static final float JUMP_VELOCITY_Y = -300;
+-    private static final float FALL_ACCELERATION_Y = 500;
++    private static final float GRAVITY = 500;
+     private static final float HORIZONTAL_VELOCITY_X = 300;
+-//    private static final float MIN_ENERGY = 0;
+     private static final float MAX_ENERGY = 100;
+     private static final float ENERGY_CHANGE = 0.5f;
+ 
+@@ -24,9 +23,7 @@
+     private static final float TIME_BETWEEN_CLIPS = 0.1f;
+ 
+     private float energy = MAX_ENERGY;
+-//    private boolean flying = false;
+     private final UserInputListener inputListener;
+-//    private GameObjectCollection gameObjects;
+     private final Renderable standStillImg;
+ 
+     AnimationRenderable movementAnimation;
+@@ -44,7 +41,8 @@
+ 
+         this.inputListener = inputListener;
+         this.standStillImg = imageReader.readImage("assets/standstill.jpg", true);
+-        this.movementAnimation = new AnimationRenderable(MOVEMENT_PATH,imageReader,true,TIME_BETWEEN_CLIPS);
++        this.movementAnimation = new AnimationRenderable(MOVEMENT_PATH, imageReader,true,
++                TIME_BETWEEN_CLIPS);
+ 
+         this.renderer().setRenderable(this.standStillImg);
+         physics().preventIntersectionsFromDirection(Vector2.ZERO);
+@@ -52,11 +50,9 @@
+ 
+     public static Avatar create(GameObjectCollection gameObjects, int layer, Vector2 topLeftCorner,
+                                 UserInputListener inputListener, ImageReader imageReader) {
+-
+         Avatar avatar = new Avatar(topLeftCorner, AVATAR_DIMENSIONS, imageReader, inputListener);
+-        avatar.fall();
++        avatar.setGravity();
+         gameObjects.addGameObject(avatar, layer);
+-
+         return avatar;
+     }
+ 
+@@ -68,15 +64,12 @@
+         this.renderer().setRenderable(this.standStillImg);
+ 
+         if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+-//            System.out.println(this.getCenter().x());  // TODO
+-
+             moveRight();
+         }
+         if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
+             moveLeft();
+-//            System.out.println(this.getCenter().x());   // TODO
+         }
+-            if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {
++        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)) {
+             if (inputListener.isKeyPressed(KeyEvent.VK_SHIFT) && energy > 0)
+                 fly();
+             else jump();
+@@ -90,29 +83,29 @@
+     public float getEnergy(){ return this.energy;}
+ 
+     private void moveRight() {
+-        setVelocity(new Vector2(HORIZONTAL_VELOCITY_X, getVelocity().y()));
++        setVelocity(getVelocity().add(new Vector2(HORIZONTAL_VELOCITY_X, 0)));
+         this.renderer().setRenderable(this.movementAnimation);
+         this.renderer().setIsFlippedHorizontally(false);
+     }
+ 
+     private void moveLeft() {
+-        setVelocity(new Vector2(- HORIZONTAL_VELOCITY_X, getVelocity().y()));
++        setVelocity(getVelocity().subtract(new Vector2(HORIZONTAL_VELOCITY_X, 0)));
+         this.renderer().setRenderable(this.movementAnimation);
+         this.renderer().setIsFlippedHorizontally(true);
+     }
+ 
+     private void fly() {
+-        setVelocity(new Vector2(getVelocity().x(), JUMP_VELOCITY_Y));
++        setVelocity(getVelocity().add(new Vector2(0, JUMP_VELOCITY_Y)));
+         this.energy -= ENERGY_CHANGE;
+     }
+ 
+     private void jump() {
+         if(getVelocity().y() == 0)
+-            setVelocity(new Vector2(getVelocity().x(), JUMP_VELOCITY_Y));
++            setVelocity(getVelocity().add(new Vector2(0, JUMP_VELOCITY_Y)));
+     }
+ 
+-    private void fall() {
+-        transform().setAccelerationY(FALL_ACCELERATION_Y);
++    private void setGravity() {
++        transform().setAccelerationY(GRAVITY);
+     }
+ 
+     private void updateEnergy() {
+@@ -121,7 +114,7 @@
+     }
+ 
+     private void cancelHorizontalVelocity() {
+-        setVelocity(new Vector2(0, getVelocity().y()));
++        setVelocity(getVelocity().multX(0f));
+     }
+ 
+     @Override
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe\" name=\"Changes\" comment=\"Updated Trees class.\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/pepse/world/GroundElement.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"CodeStyleSettingsInfer\">\r\n    <option name=\"done\" value=\"true\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n        <option value=\"Interface\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectCodeStyleSettingsMigration\">\r\n    <option name=\"version\" value=\"2\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2J7jSzutznwxIrO3phQE55ed4QY\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Downloaded.Files.Path.Enabled\": \"false\",\r\n    \"Repository.Attach.Annotations\": \"false\",\r\n    \"Repository.Attach.JavaDocs\": \"false\",\r\n    \"Repository.Attach.Sources\": \"false\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"dart.analysis.tool.window.visible\": \"false\",\r\n    \"last_opened_file_path\": \"C:/Program Files/Java/External Libraries/DanoGame/javadoc\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"project.structure.last.edited\": \"Modules\",\r\n    \"project.structure.proportion\": \"0.15\",\r\n    \"project.structure.side.proportion\": \"0.2\",\r\n    \"settings.editor.selected.configurable\": \"reference.projectsettings.compiler.javacompiler\",\r\n    \"show.migrate.to.gradle.popup\": \"false\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateClassDialog.RecentsKey\">\r\n      <recent name=\"pepse.world\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.PepseGame\">\r\n    <configuration name=\"PepseGame\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"pepse.PepseGameManager\" />\r\n      <module name=\"ex5\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Platformer\" type=\"Application\" factoryName=\"Application\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"Platformer\" />\r\n      <module name=\"ex5\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe\" name=\"Changes\" comment=\"\" />\r\n      <created>1671436026258</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1671436026258</updated>\r\n      <workItem from=\"1671436028798\" duration=\"6604000\" />\r\n      <workItem from=\"1671646599641\" duration=\"7100000\" />\r\n      <workItem from=\"1671705515320\" duration=\"22220000\" />\r\n      <workItem from=\"1672071781832\" duration=\"31607000\" />\r\n      <workItem from=\"1672608116407\" duration=\"13319000\" />\r\n      <workItem from=\"1672730247995\" duration=\"193000\" />\r\n      <workItem from=\"1672731117917\" duration=\"38141000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Initial version\">\r\n      <created>1671651052026</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1671651052026</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Sun in circular movement.&#10;SunHalo following sun.\">\r\n      <created>1671799370012</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1671799370012</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Added comments to Sun and SunHalo.\">\r\n      <created>1671801497838</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1671801497838</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Another adaptation to sun ellipse.\">\r\n      <created>1671912615119</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1671912615119</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Adapted vertical movement to leaf falling strategy.\">\r\n      <created>1671922828204</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1671922828204</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Add Night functionality.&#10;Adapted Sun to start from midday.\">\r\n      <created>1671997993687</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1671997993687</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Partial - Avatar\">\r\n      <created>1672245847635</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672245847635</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Avatar - Rendering\">\r\n      <created>1672508450331</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672508450331</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Avatar - Rendering\">\r\n      <created>1672508455541</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672508455541</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Temp\">\r\n      <created>1672675870961</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672675870961</updated>\r\n    </task>\r\n    <task id=\"LOCAL\u200E-00011\" summary=\"avatar now implements energized interface\">\r\n      <created>1672686982361</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL\u200E-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\u200E\" />\r\n      <updated>1672686982361</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"Java 11\">\r\n      <created>1672696559796</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672696559796</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"Java 11 - Adapted Math.ceiling method, and nextInt method.\">\r\n      <created>1672698844024</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672698844024</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"Terrain expansion: changed methods in the Terrain class and the PepseGameManager class.\">\r\n      <created>1672705316450</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672705316450</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"Terrain expansion: changed methods in the Terrain class and the PepseGameManager class.\">\r\n      <created>1672707698722</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672707698722</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"Terrain expansion: using Callback Strategy.\">\r\n      <created>1672740184860</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672740184861</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00017\" summary=\"Updated Trees class.\">\r\n      <created>1672797796635</created>\r\n      <option name=\"number\" value=\"00017\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1672797796635</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"18\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"origin/master\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Initial version\" />\r\n    <MESSAGE value=\"Sun in circular movement.&#10;SunHalo following sun.\" />\r\n    <MESSAGE value=\"Added comments to Sun and SunHalo.\" />\r\n    <MESSAGE value=\"Another adaptation to sun ellipse.\" />\r\n    <MESSAGE value=\"Adapted vertical movement to leaf falling strategy.\" />\r\n    <MESSAGE value=\"Add Night functionality.&#10;Adapted Sun to start from midday.\" />\r\n    <MESSAGE value=\"Partial - Avatar\" />\r\n    <MESSAGE value=\"Avatar - Rendering\" />\r\n    <MESSAGE value=\"Temp\" />\r\n    <MESSAGE value=\"avatar now implements energized interface\" />\r\n    <MESSAGE value=\"Java 11\" />\r\n    <MESSAGE value=\"Java 11 - Adapted Math.ceiling method, and nextInt method.\" />\r\n    <MESSAGE value=\"Terrain expansion: changed methods in the Terrain class and the PepseGameManager class.\" />\r\n    <MESSAGE value=\"Terrain expansion: using Callback Strategy.\" />\r\n    <MESSAGE value=\"Updated Trees class.\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Updated Trees class.\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision c27bb00c711478f79c9af7fedd5e6a921f424f1c)
++++ b/.idea/workspace.xml	(date 1672928601469)
+@@ -4,8 +4,12 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Updated Trees class.">
+-      <change afterPath="$PROJECT_DIR$/src/pepse/world/GroundElement.java" afterDir="false" />
++    <list default="true" id="c7c14e8a-f544-4fd2-a8cd-50c3b7ab5afe" name="Changes" comment="Created Interface for Terrain and Tree.">
++      <change afterPath="$PROJECT_DIR$/src/README" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/pepse/world/Avatar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Avatar.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/pepse/world/EnergyDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/EnergyDisplay.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/pepse/world/energized.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pepse/world/Energized.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -60,7 +64,7 @@
+     "project.structure.last.edited": "Modules",
+     "project.structure.proportion": "0.15",
+     "project.structure.side.proportion": "0.2",
+-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
++    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
+     "show.migrate.to.gradle.popup": "false",
+     "vue.rearranger.settings.migration": "true"
+   }
+@@ -100,7 +104,7 @@
+       <workItem from="1672071781832" duration="31607000" />
+       <workItem from="1672608116407" duration="13319000" />
+       <workItem from="1672730247995" duration="193000" />
+-      <workItem from="1672731117917" duration="38141000" />
++      <workItem from="1672731117917" duration="48667000" />
+     </task>
+     <task id="LOCAL-00001" summary="Initial version">
+       <created>1671651052026</created>
+@@ -221,7 +225,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1672797796635</updated>
+     </task>
+-    <option name="localTasksCounter" value="18" />
++    <task id="LOCAL-00018" summary="Created Interface for Terrain and Tree.">
++      <created>1672798622776</created>
++      <option name="number" value="00018" />
++      <option name="presentableId" value="LOCAL-00018" />
++      <option name="project" value="LOCAL" />
++      <updated>1672798622776</updated>
++    </task>
++    <option name="localTasksCounter" value="19" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -266,6 +277,11 @@
+     <MESSAGE value="Terrain expansion: changed methods in the Terrain class and the PepseGameManager class." />
+     <MESSAGE value="Terrain expansion: using Callback Strategy." />
+     <MESSAGE value="Updated Trees class." />
+-    <option name="LAST_COMMIT_MESSAGE" value="Updated Trees class." />
++    <MESSAGE value="Created Interface for Terrain and Tree." />
++    <option name="LAST_COMMIT_MESSAGE" value="Created Interface for Terrain and Tree." />
++  </component>
++  <component name="XSLT-Support.FileAssociations.UIState">
++    <expand />
++    <select />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/README
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/README b/src/README
+new file mode 100644
+--- /dev/null	(date 1672928439991)
++++ b/src/README	(date 1672928439991)
+@@ -0,0 +1,75 @@
++anton.kravtsov
++
++
++
++Differences between UMLs:
++util class - NoiseGenerator - At first we thought to use it as a function or method in the Terrain class,
++             but we found out that it content is way much bigger to be a method or a function
++
++Energized Interface - We made this interface to prevent ourselves writing for implementation (explanation in
++                      design part)
++
++
++
++Infinite World explanation:
++- Creating an infinite world implies that new objects need to be added to the game when the camera moves
++  away from a certain frame. Creating a large amount of objects is memory inefficient, and in the case of the
++  current game causes the processor to update a large amount of states.
++
++- In order to avoid such an overflow of objects, we've used a LinkedList Database of fixed length which
++  contains the objects of a certain type. When moving to each side of the screen, objects are added on one side
++  of the LinkedList and removed from the other side.
++
++- The size of the LinkedLists exceed the window frame by a fixed amount in order to ensure no delays will cause
++  the visible screen to lack gameobjects.
++
++- In an initial step, a whole range of objects is generated (using createInRange).
++  Later, when updating the objects on either side the process adapts one step at a time.
++
++- Specific aspects of the generated objects (i.e terrain and trees) are randomly chosen using a Random object.
++  In case an object at a certain position is removed and later replaced, the replaced objects should have the same
++  attributes (such as position, color, size, etc.) as those that were removed previously.
++  In order to obtain that, the Random object initiated depends on the position parameter.
++  Hence, when invoking the Random::nextInt() method, the same result is obtained each time.
++
++
++Tree class explanation:
++- The Tree class doesn't extend GameObject (as mentioned before, it is a "creator" class).
++
++- Trees should be dispersed adequately through the terrain, and definitely should not overlap.
++  In order to define the tree's positions in reference with the terrain, a Random variable
++  is used which results in a 1 / CHANCE probability of placing a tree.
++  In addition, the latter variable is randomized only if there's at least a BLOCK_SIZE distance (i.e 30)
++  from the last created tree.
++
++- In order to define each tree's height, a random number in the range of [MIN_TREE_HEIGHT, MAX_TREE_HEIGHT]
++  is used. The range is defined in static attributes.
++
++- Similarly, in order to define the bushiness of the tree top, a variable is randomized to receive a
++  diameter which can have one out of two value (i.e MIN_TREE_TOP_DIAM and MAX_TREE_TOP_DIAM).
++
++- The trunk and treetop are both generated using separate methods (i.e createTrunk and createTreeTop).
++
++
++Design explanations:
++- The Tree and Terrain classes are quite similar in a way that both are "creator" classes which implement
++  similar methods.
++  Therefore we've created an interface call GroundElement which holds the common behavior of the classes, and is
++  implemented by both.
++  Future adaptations of the game may require the inclusion of other objects which will be positioned on the ground
++  and will need to be created and removed in the infinite world.
++  These future objects will implement the above-mentioned interface.
++
++- In order to display the remaining energy, we've created a separate class EnergyDisplay which receives the
++  object containing energy in its constructor.
++  In our current game, only Avatar can possess energy.
++  In order to enable further use of the EnergyDisplay class, we've created an interface called Energized,
++  which should be implemented by all classes containing energy.
++  Hence, when Avatar is passed to the EnergyDisplay constructor it is done after upcasting it to Energized.
++  This design follows the "writing for interface and not for implementation" principle.
++
++- The Block class has two major implementations in our game - as part of the Terrain, and as part of the Tree trunk.
++  We've decided not to create a separate class for the Tree trunk since there are no behavioral differences
++  between the regular block and the Tree trunk block.
++  On the other hand, the leaf rectangle behaves differently since it changes transparency and allows movement.
++  Therefore, a separate Leaf class was created which does not inherit from the Block class.
+\ No newline at end of file
