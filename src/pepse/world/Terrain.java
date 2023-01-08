@@ -66,41 +66,6 @@ public class Terrain extends ExtendableElement {
         return  (realColHeight / BLOCK_SIZE) * BLOCK_SIZE;
     }
 
-//    /**
-//     * A method that creates terrain between minX and maxX
-//     * @param minX represents the lower bound
-//     * @param maxX represents the top bound
-//     */
-//    public void createInRange(int minX, int maxX) {
-//        // normalizing minX and maxX to a size that fits the block size
-//        int normalizedMaxX = (maxX/ BLOCK_SIZE) * BLOCK_SIZE + BLOCK_SIZE;
-//        int normalizedMinX = (minX / BLOCK_SIZE) * BLOCK_SIZE - BLOCK_SIZE;
-//
-//        // creating for the first time:
-//        if (this.minXOnTerrain == 0 & this.maxXOnTerrain == 0) {
-//            createInRangeHelper(normalizedMinX, normalizedMaxX);
-//            this.minXOnTerrain = normalizedMinX;
-//            this.maxXOnTerrain = normalizedMaxX;
-//        }
-//
-//        // extending to the right:
-//        else if (normalizedMaxX > this.maxXOnTerrain) {
-//            createInRangeHelper(this.maxXOnTerrain, normalizedMaxX);
-//            int deltaMax = Math.abs(Math.abs(normalizedMaxX) - Math.abs(this.maxXOnTerrain));
-//            this.minXOnTerrain = this.minXOnTerrain + deltaMax;
-//            this.maxXOnTerrain = normalizedMaxX;
-//        }
-//
-//        // extending to the left:
-//        else if (normalizedMinX < this.minXOnTerrain) {
-//            createInRangeHelper(normalizedMinX, this.minXOnTerrain);
-//            int deltaMin = Math.abs(Math.abs(normalizedMinX) - Math.abs(this.minXOnTerrain));
-//            this.maxXOnTerrain = this.maxXOnTerrain - deltaMin;
-//            this.minXOnTerrain = normalizedMinX;
-//        }
-//    }
-
-
     /**
      * A method that creates terrain between minX and maxX
      * @param minX represents the lower bound

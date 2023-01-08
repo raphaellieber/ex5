@@ -119,11 +119,6 @@ public class Leaf extends GameObject {
         this.horizontalTransition = new Transition<>(this, this.transform()::setVelocityX,
                 MAX_HORIZONTAL_SPEED, MIN_HORIZONTAL_SPEED, Transition.CUBIC_INTERPOLATOR_FLOAT, CHANGE_TIME,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
-
-        // Vertical Transition
-//        this.verticalTransition = new Transition<>(this, this.transform()::setVelocityY,
-//                MAX_VERTICAL_SPEED, MIN_VERTICAL_SPEED, Transition.LINEAR_INTERPOLATOR_FLOAT, CHANGE_TIME,
-//                Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 
     /**
@@ -162,9 +157,7 @@ public class Leaf extends GameObject {
         super.onCollisionEnter(other, collision);
 
         this.transform().setVelocityX(0);  // Clearing horizontal movement
-//        this.transform().setVelocityY(0);   // Clearing vertical movement
         this.removeComponent(this.horizontalTransition);
-//        this.removeComponent(this.verticalTransition);
         this.removeComponent(this.dimensionTransition);
         this.removeComponent(this.angelTransition);
     }

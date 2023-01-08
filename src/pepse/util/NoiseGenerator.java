@@ -2,6 +2,9 @@ package pepse.util;
 
 import java.util.Random;
 
+/**
+ * An implementation of NoiseGenerator that was taken from the internet.
+ */
 public class NoiseGenerator {
     private double seed;
     private long defaultSize;

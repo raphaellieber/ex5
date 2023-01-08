@@ -60,6 +60,16 @@ public class Avatar extends GameObject implements Energized {
         return avatar;
     }
 
+    /**
+     * An override to the original update method, the method listens to the user and changes the avatar
+     * possition accordingly
+     * @param deltaTime The time elapsed, in seconds, since the last frame. Can
+     *                  be used to determine a new position/velocity by multiplying
+     *                  this delta with the velocity/acceleration respectively
+     *                  and adding to the position/velocity:
+     *                  velocity += deltaTime*acceleration
+     *                  pos += deltaTime*velocity
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -133,15 +143,11 @@ public class Avatar extends GameObject implements Energized {
             this.energy += ENERGY_CHANGE;
     }
 
+    /**
+     * A method that cancels the horizontal velocity
+     */
     private void cancelHorizontalVelocity() {
         setVelocity(new Vector2(0, getVelocity().y()));
     }
 
-    /**
-     *
-     * @param other The GameObject with which a collision occurred.
-     * @param collision Information regarding this collision.
-     *                  A reasonable elastic behavior can be achieved with:
-     *                  setVelocity(getVelocity().flipped(collision.getNormal()));
-     */
 }
