@@ -20,7 +20,7 @@ public class Avatar extends GameObject implements Energized {
     private static final float ENERGY_CHANGE = 0.5f;
 
     private static final String[] MOVEMENT_PATH = new String[] {"assets/leftFoot.png","assets/rightFoot.png"};
-    private static final String STAND_STILL_PATH = "assets/standstill.png";
+    private static final String STAND_STILL_PATH = "assets/standStill.png";
     private static final float TIME_BETWEEN_CLIPS = 0.1f;
 
     private float energy = MAX_ENERGY;

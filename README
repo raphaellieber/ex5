@@ -1,0 +1,94 @@
+anton.kravtsov
+raphaell
+
+
+Differences between UMLs:
+- NoiseGenerator Class (util package): initially we though to generate the noise through a method in the
+  Terrain class, but while working on it its content appeared to be too large for a single method.
+  Therefore a separate class was created for it.
+
+- Energized Interface: When we decided to display the remaining energy of the Avatar, we understood that
+  in future updates other Objects might also possess energy that might be displayed too.
+  In order to assure the use of similar methods between those objects, we've created an interface Energized which
+  is implemented by Avatar (and will be implemented by future objects containing energy).
+  Hence, we wrote "for interface" instead of "for implementation".
+
+- ExtendableElement Abstract Class: While working on the Terrain and Tree classes, it became apparent that both
+  classes share common functionality. Therefore we decided to create an abstract class which contains the common
+  functionality (explained in more detail below).
+
+
+Infinite World explanation:
+- Creating an infinite world implies that new objects need to be added to the game when the camera moves
+  away from a certain frame. Creating a large amount of objects is memory inefficient, and in the case of the
+  current game causes the processor to update a large amount of states.
+  In order to avoid such an overflow of objects, we've used a specific databases for the Terrain and the Trees.
+  I.  For the Terrain we used a LinkedList Database of fixed length which contains the objects of a certain type.
+      When moving to each side of the screen, objects are added on one side of the LinkedList and
+      removed from the other side.
+      The size of the LinkedLists exceeds the window frame by a fixed amount in order to ensure no delays will
+      cause the visible screen to lack game objects.
+  II. For the Tree we used a different approach, since their presence is not continuous.
+      Created Trees are stored in a HashMap with the x coordinates as keys.
+      Trees that get out of range are removed, while others are added as needed.
+- In an initial step, a whole range of objects is generated (using createInRange).
+  Later, when updating the objects on either side the process adapts one step at a time.
+
+- Specific aspects of the generated objects (i.e terrain and trees) are randomly chosen using a Random object.
+  In case an object at a certain position is removed and later replaced, the replaced objects should have
+  the same attributes (such as position, color, size, etc.) as those that were removed previously.
+  In order to obtain that, the random generation of objects depends on the position parameter and on a seed
+  combined using object.hash()
+  Hence, when invoking the Random::nextInt() method for a certain position, the same result is obtained
+  each time.
+
+
+Tree class explanation:
+- The Tree class doesn't extend GameObject (as mentioned before, it is a "creator" class).
+
+- Trees should be dispersed adequately through the terrain, and definitely should not overlap.
+  In order to define the tree's positions in reference with the terrain, a Random variable
+  is used which results in a 1 / CHANCE probability of placing a tree.
+  In addition, the latter variable is randomized only if there's at least a BLOCK_SIZE distance (i.e 30)
+  from the last created tree.
+
+- In order to define each tree's height, a random number in the range of [MIN_TREE_HEIGHT, MAX_TREE_HEIGHT]
+  is used. The range is defined in static attributes.
+
+- Similarly, in order to define the bushiness of the tree top, a variable is randomized to receive a
+  diameter which can have one out of two value (i.e MIN_TREE_TOP_DIAM and MAX_TREE_TOP_DIAM).
+
+- The trunk and treetop are both generated using separate methods (i.e createTrunk and createTreeTop).
+
+- In order to ensure a tree will be created exactly the same at a curtain position, they are generated
+  the same way described before. i.e, the location of the trees, their height and bushiness of the tree top
+  randomly generated with a dependency on a combination between curtain seed and the tree location.
+
+
+Design explanations:
+- The Tree and Terrain classes are quite similar in a way that both are "creator" classes which extend
+  their the span of their objects when needed.
+  Therefore, we've created an abstract class ExtendableElement which holds the common methods of these classes.
+  Both classes inherit the abstract class.
+  Future adaptations of the game may require the inclusion of other objects that will be created in a certain
+  range (for example clouds or sea) and will need to be removed as needed in the infinite world.
+  These future objects will implement the above-mentioned class.
+
+- In order to display the remaining energy, we've created a separate class EnergyDisplay which receives the
+  object containing energy in its constructor.
+  In our current game, only Avatar can possess energy.
+  In order to enable further use of the energized objects we've created an interface called Energized,
+  which should be implemented by all classes containing energy.
+  This interface allows us to write a general class using object's energy (for instance the EnergyDisplay class)
+  that will get an Energized object and will display its energy on the screen.
+  This design follows the "writing for interface and not for implementation" principle.
+
+- The Block class has two major implementations in our game - as part of the Terrain, and as part of the
+  Tree trunk.
+  We've decided not to create a separate class for the Tree trunk since there are no need of special behaviors
+  in relation to a default gameObject.
+  In a future design if someone will decide to extend some special behaviors of the tree trunk block like
+  adding moss to some of them, creating a tree trunk block class will be binding.
+
+- On the other hand, the leaf rectangle behaves differently since it changes transparency and allows movement.
+  Therefore, a separate Leaf class was created which does not inherit from the Block class.
